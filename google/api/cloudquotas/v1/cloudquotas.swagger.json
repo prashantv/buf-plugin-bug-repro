@@ -1,0 +1,1465 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "google/api/cloudquotas/v1/cloudquotas.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "CloudQuotas"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/{name_1}": {
+      "get": {
+        "summary": "Retrieve the QuotaInfo of a quota for a project, folder or organization.",
+        "operationId": "GetQuotaInfo2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name_1",
+            "description": "Required. The resource name of the quota info.\n\nAn example name:\n`projects/123/locations/global/services/compute.googleapis.com/quotaInfos/CpusPerProjectPerRegion`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+/locations/[^/]+/services/[^/]+/quotaInfos/[^/]+"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{name_2}": {
+      "get": {
+        "summary": "Retrieve the QuotaInfo of a quota for a project, folder or organization.",
+        "operationId": "GetQuotaInfo3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name_2",
+            "description": "Required. The resource name of the quota info.\n\nAn example name:\n`projects/123/locations/global/services/compute.googleapis.com/quotaInfos/CpusPerProjectPerRegion`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+/locations/[^/]+/services/[^/]+/quotaInfos/[^/]+"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{name_3}": {
+      "get": {
+        "summary": "Gets details of a single QuotaPreference.",
+        "operationId": "GetQuotaPreference",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name_3",
+            "description": "Required. Name of the resource\n\nExample name:\n`projects/123/locations/global/quota_preferences/my-config-for-us-east1`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/quotaPreferences/[^/]+"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{name_4}": {
+      "get": {
+        "summary": "Gets details of a single QuotaPreference.",
+        "operationId": "GetQuotaPreference2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name_4",
+            "description": "Required. Name of the resource\n\nExample name:\n`projects/123/locations/global/quota_preferences/my-config-for-us-east1`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+/locations/[^/]+/quotaPreferences/[^/]+"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{name_5}": {
+      "get": {
+        "summary": "Gets details of a single QuotaPreference.",
+        "operationId": "GetQuotaPreference3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name_5",
+            "description": "Required. Name of the resource\n\nExample name:\n`projects/123/locations/global/quota_preferences/my-config-for-us-east1`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+/locations/[^/]+/quotaPreferences/[^/]+"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{name}": {
+      "get": {
+        "summary": "Retrieve the QuotaInfo of a quota for a project, folder or organization.",
+        "operationId": "GetQuotaInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Required. The resource name of the quota info.\n\nAn example name:\n`projects/123/locations/global/services/compute.googleapis.com/quotaInfos/CpusPerProjectPerRegion`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/services/[^/]+/quotaInfos/[^/]+"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{parent_1}/quotaInfos": {
+      "get": {
+        "summary": "Lists QuotaInfos of all quotas for a given project, folder or organization.",
+        "operationId": "ListQuotaInfos2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListQuotaInfosResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_1",
+            "description": "Required. Parent value of QuotaInfo resources.\nListing across different resource containers (such as 'projects/-') is not\nallowed.\n\nExample names:\n`projects/123/locations/global/services/compute.googleapis.com`\n`folders/234/locations/global/services/compute.googleapis.com`\n`organizations/345/locations/global/services/compute.googleapis.com`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+/locations/[^/]+/services/[^/]+"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. Requested page size. Server may return fewer items than\nrequested. If unspecified, server will pick an appropriate default.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. A token identifying a page of results the server should return.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{parent_1}/quotaPreferences": {
+      "get": {
+        "summary": "Lists QuotaPreferences in a given project, folder or organization.",
+        "operationId": "ListQuotaPreferences2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListQuotaPreferencesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_1",
+            "description": "Required. Parent value of QuotaPreference resources.\nListing across different resource containers (such as 'projects/-') is not\nallowed.\n\nWhen the value starts with 'folders' or 'organizations', it lists the\nQuotaPreferences for org quotas in the container. It does not list the\nQuotaPreferences in the descendant projects of the container.\n\nExample parents:\n`projects/123/locations/global`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+/locations/[^/]+"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. Requested page size. Server may return fewer items than\nrequested. If unspecified, server will pick an appropriate default.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. A token identifying a page of results the server should return.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "description": "Optional. Filter result QuotaPreferences by their state, type,\ncreate/update time range.\n\nExample filters:\n`reconciling=true AND request_type=CLOUD_CONSOLE`,\n`reconciling=true OR creation_time\u003e2022-12-03T10:30:00`",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order_by",
+            "description": "Optional. How to order of the results. By default, the results are ordered\nby create time.\n\nExample orders:\n`quota_id`,\n`service, create_time`",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      },
+      "post": {
+        "summary": "Creates a new QuotaPreference that declares the desired value for a quota.",
+        "operationId": "CreateQuotaPreference2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_1",
+            "description": "Required. Value for parent.\n\nExample:\n`projects/123/locations/global`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+/locations/[^/]+"
+          },
+          {
+            "name": "quota_preference",
+            "description": "Required. The resource being created",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference",
+              "required": [
+                "quota_preference"
+              ]
+            }
+          },
+          {
+            "name": "quota_preference_id",
+            "description": "Optional. Id of the requesting object, must be unique under its parent.\nIf client does not set this field, the service will generate one.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ignore_safety_checks",
+            "description": "The list of quota safety checks to be ignored.\n\n - QUOTA_DECREASE_BELOW_USAGE: Validates that a quota mutation would not cause the consumer's effective\nlimit to be lower than the consumer's quota usage.\n - QUOTA_DECREASE_PERCENTAGE_TOO_HIGH: Validates that a quota mutation would not cause the consumer's effective\nlimit to decrease by more than 10 percent.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "QUOTA_DECREASE_BELOW_USAGE",
+                "QUOTA_DECREASE_PERCENTAGE_TOO_HIGH"
+              ]
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{parent_2}/quotaInfos": {
+      "get": {
+        "summary": "Lists QuotaInfos of all quotas for a given project, folder or organization.",
+        "operationId": "ListQuotaInfos3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListQuotaInfosResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_2",
+            "description": "Required. Parent value of QuotaInfo resources.\nListing across different resource containers (such as 'projects/-') is not\nallowed.\n\nExample names:\n`projects/123/locations/global/services/compute.googleapis.com`\n`folders/234/locations/global/services/compute.googleapis.com`\n`organizations/345/locations/global/services/compute.googleapis.com`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+/locations/[^/]+/services/[^/]+"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. Requested page size. Server may return fewer items than\nrequested. If unspecified, server will pick an appropriate default.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. A token identifying a page of results the server should return.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{parent_2}/quotaPreferences": {
+      "get": {
+        "summary": "Lists QuotaPreferences in a given project, folder or organization.",
+        "operationId": "ListQuotaPreferences3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListQuotaPreferencesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_2",
+            "description": "Required. Parent value of QuotaPreference resources.\nListing across different resource containers (such as 'projects/-') is not\nallowed.\n\nWhen the value starts with 'folders' or 'organizations', it lists the\nQuotaPreferences for org quotas in the container. It does not list the\nQuotaPreferences in the descendant projects of the container.\n\nExample parents:\n`projects/123/locations/global`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+/locations/[^/]+"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. Requested page size. Server may return fewer items than\nrequested. If unspecified, server will pick an appropriate default.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. A token identifying a page of results the server should return.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "description": "Optional. Filter result QuotaPreferences by their state, type,\ncreate/update time range.\n\nExample filters:\n`reconciling=true AND request_type=CLOUD_CONSOLE`,\n`reconciling=true OR creation_time\u003e2022-12-03T10:30:00`",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order_by",
+            "description": "Optional. How to order of the results. By default, the results are ordered\nby create time.\n\nExample orders:\n`quota_id`,\n`service, create_time`",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      },
+      "post": {
+        "summary": "Creates a new QuotaPreference that declares the desired value for a quota.",
+        "operationId": "CreateQuotaPreference3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_2",
+            "description": "Required. Value for parent.\n\nExample:\n`projects/123/locations/global`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+/locations/[^/]+"
+          },
+          {
+            "name": "quota_preference",
+            "description": "Required. The resource being created",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference",
+              "required": [
+                "quota_preference"
+              ]
+            }
+          },
+          {
+            "name": "quota_preference_id",
+            "description": "Optional. Id of the requesting object, must be unique under its parent.\nIf client does not set this field, the service will generate one.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ignore_safety_checks",
+            "description": "The list of quota safety checks to be ignored.\n\n - QUOTA_DECREASE_BELOW_USAGE: Validates that a quota mutation would not cause the consumer's effective\nlimit to be lower than the consumer's quota usage.\n - QUOTA_DECREASE_PERCENTAGE_TOO_HIGH: Validates that a quota mutation would not cause the consumer's effective\nlimit to decrease by more than 10 percent.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "QUOTA_DECREASE_BELOW_USAGE",
+                "QUOTA_DECREASE_PERCENTAGE_TOO_HIGH"
+              ]
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{parent}/quotaInfos": {
+      "get": {
+        "summary": "Lists QuotaInfos of all quotas for a given project, folder or organization.",
+        "operationId": "ListQuotaInfos",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListQuotaInfosResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Required. Parent value of QuotaInfo resources.\nListing across different resource containers (such as 'projects/-') is not\nallowed.\n\nExample names:\n`projects/123/locations/global/services/compute.googleapis.com`\n`folders/234/locations/global/services/compute.googleapis.com`\n`organizations/345/locations/global/services/compute.googleapis.com`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/services/[^/]+"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. Requested page size. Server may return fewer items than\nrequested. If unspecified, server will pick an appropriate default.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. A token identifying a page of results the server should return.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{parent}/quotaPreferences": {
+      "get": {
+        "summary": "Lists QuotaPreferences in a given project, folder or organization.",
+        "operationId": "ListQuotaPreferences",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListQuotaPreferencesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Required. Parent value of QuotaPreference resources.\nListing across different resource containers (such as 'projects/-') is not\nallowed.\n\nWhen the value starts with 'folders' or 'organizations', it lists the\nQuotaPreferences for org quotas in the container. It does not list the\nQuotaPreferences in the descendant projects of the container.\n\nExample parents:\n`projects/123/locations/global`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. Requested page size. Server may return fewer items than\nrequested. If unspecified, server will pick an appropriate default.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. A token identifying a page of results the server should return.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "description": "Optional. Filter result QuotaPreferences by their state, type,\ncreate/update time range.\n\nExample filters:\n`reconciling=true AND request_type=CLOUD_CONSOLE`,\n`reconciling=true OR creation_time\u003e2022-12-03T10:30:00`",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order_by",
+            "description": "Optional. How to order of the results. By default, the results are ordered\nby create time.\n\nExample orders:\n`quota_id`,\n`service, create_time`",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      },
+      "post": {
+        "summary": "Creates a new QuotaPreference that declares the desired value for a quota.",
+        "operationId": "CreateQuotaPreference",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Required. Value for parent.\n\nExample:\n`projects/123/locations/global`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+"
+          },
+          {
+            "name": "quota_preference",
+            "description": "Required. The resource being created",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference",
+              "required": [
+                "quota_preference"
+              ]
+            }
+          },
+          {
+            "name": "quota_preference_id",
+            "description": "Optional. Id of the requesting object, must be unique under its parent.\nIf client does not set this field, the service will generate one.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ignore_safety_checks",
+            "description": "The list of quota safety checks to be ignored.\n\n - QUOTA_DECREASE_BELOW_USAGE: Validates that a quota mutation would not cause the consumer's effective\nlimit to be lower than the consumer's quota usage.\n - QUOTA_DECREASE_PERCENTAGE_TOO_HIGH: Validates that a quota mutation would not cause the consumer's effective\nlimit to decrease by more than 10 percent.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "QUOTA_DECREASE_BELOW_USAGE",
+                "QUOTA_DECREASE_PERCENTAGE_TOO_HIGH"
+              ]
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{quota_preference.name_1}": {
+      "patch": {
+        "summary": "Updates the parameters of a single QuotaPreference. It can updates the\nconfig in any states, not just the ones pending approval.",
+        "operationId": "UpdateQuotaPreference2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "quota_preference.name_1",
+            "description": "Required except in the CREATE requests.\nThe resource name of the quota preference.\nThe ID component following \"locations/\" must be \"global\".\nExample:\n`projects/123/locations/global/quotaPreferences/my-config-for-us-east1`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+/locations/[^/]+/quotaPreferences/[^/]+"
+          },
+          {
+            "name": "quota_preference",
+            "description": "Required. The resource being updated",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dimensions": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Immutable. The dimensions that this quota preference applies to. The key of\nthe map entry is the name of a dimension, such as \"region\", \"zone\",\n\"network_id\", and the value of the map entry is the dimension value.\n\nIf a dimension is missing from the map of dimensions, the quota preference\napplies to all the dimension values except for those that have other quota\npreferences configured for the specific value.\n\nNOTE: QuotaPreferences can only be applied across all values of \"user\" and\n\"resource\" dimension. Do not set values for \"user\" or \"resource\" in the\ndimension map.\n\nExample: {\"provider\", \"Foo Inc\"} where \"provider\" is a service specific\ndimension."
+                },
+                "quota_config": {
+                  "$ref": "#/definitions/v1QuotaConfig",
+                  "description": "Required. Preferred quota configuration."
+                },
+                "etag": {
+                  "type": "string",
+                  "description": "Optional. The current etag of the quota preference. If an etag is provided\non update and does not match the current server's etag of the quota\npreference, the request will be blocked and an ABORTED error will be\nreturned. See https://google.aip.dev/134#etags for more details on etags."
+                },
+                "create_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "Output only. Create time stamp",
+                  "readOnly": true
+                },
+                "update_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "Output only. Update time stamp",
+                  "readOnly": true
+                },
+                "service": {
+                  "type": "string",
+                  "description": "Required. The name of the service to which the quota preference is applied."
+                },
+                "quota_id": {
+                  "type": "string",
+                  "title": "Required. The id of the quota to which the quota preference is applied. A\nquota name is unique in the service. Example: `CpusPerProjectPerRegion`"
+                },
+                "reconciling": {
+                  "type": "boolean",
+                  "description": "Output only. Is the quota preference pending Google Cloud approval and\nfulfillment.",
+                  "readOnly": true
+                },
+                "justification": {
+                  "type": "string",
+                  "description": "The reason / justification for this quota preference."
+                },
+                "contact_email": {
+                  "type": "string",
+                  "description": "Required. Input only. An email address that can be used for quota related\ncommunication between the Google Cloud and the user in case the Google\nCloud needs further information to make a decision on whether the user\npreferred quota can be granted.\n\nThe Google account for the email address must have quota update permission\nfor the project, folder or organization this quota preference is for."
+                }
+              },
+              "title": "Required. The resource being updated",
+              "required": [
+                "quota_config",
+                "service",
+                "quota_id",
+                "contact_email"
+              ]
+            }
+          },
+          {
+            "name": "allow_missing",
+            "description": "Optional. If set to true, and the quota preference is not found, a new one\nwill be created. In this situation, `update_mask` is ignored.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "validate_only",
+            "description": "Optional. If set to true, validate the request, but do not actually update.\nNote that a request being valid does not mean that the request is\nguaranteed to be fulfilled.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "ignore_safety_checks",
+            "description": "The list of quota safety checks to be ignored.\n\n - QUOTA_DECREASE_BELOW_USAGE: Validates that a quota mutation would not cause the consumer's effective\nlimit to be lower than the consumer's quota usage.\n - QUOTA_DECREASE_PERCENTAGE_TOO_HIGH: Validates that a quota mutation would not cause the consumer's effective\nlimit to decrease by more than 10 percent.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "QUOTA_DECREASE_BELOW_USAGE",
+                "QUOTA_DECREASE_PERCENTAGE_TOO_HIGH"
+              ]
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{quota_preference.name_2}": {
+      "patch": {
+        "summary": "Updates the parameters of a single QuotaPreference. It can updates the\nconfig in any states, not just the ones pending approval.",
+        "operationId": "UpdateQuotaPreference3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "quota_preference.name_2",
+            "description": "Required except in the CREATE requests.\nThe resource name of the quota preference.\nThe ID component following \"locations/\" must be \"global\".\nExample:\n`projects/123/locations/global/quotaPreferences/my-config-for-us-east1`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+/locations/[^/]+/quotaPreferences/[^/]+"
+          },
+          {
+            "name": "quota_preference",
+            "description": "Required. The resource being updated",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dimensions": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Immutable. The dimensions that this quota preference applies to. The key of\nthe map entry is the name of a dimension, such as \"region\", \"zone\",\n\"network_id\", and the value of the map entry is the dimension value.\n\nIf a dimension is missing from the map of dimensions, the quota preference\napplies to all the dimension values except for those that have other quota\npreferences configured for the specific value.\n\nNOTE: QuotaPreferences can only be applied across all values of \"user\" and\n\"resource\" dimension. Do not set values for \"user\" or \"resource\" in the\ndimension map.\n\nExample: {\"provider\", \"Foo Inc\"} where \"provider\" is a service specific\ndimension."
+                },
+                "quota_config": {
+                  "$ref": "#/definitions/v1QuotaConfig",
+                  "description": "Required. Preferred quota configuration."
+                },
+                "etag": {
+                  "type": "string",
+                  "description": "Optional. The current etag of the quota preference. If an etag is provided\non update and does not match the current server's etag of the quota\npreference, the request will be blocked and an ABORTED error will be\nreturned. See https://google.aip.dev/134#etags for more details on etags."
+                },
+                "create_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "Output only. Create time stamp",
+                  "readOnly": true
+                },
+                "update_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "Output only. Update time stamp",
+                  "readOnly": true
+                },
+                "service": {
+                  "type": "string",
+                  "description": "Required. The name of the service to which the quota preference is applied."
+                },
+                "quota_id": {
+                  "type": "string",
+                  "title": "Required. The id of the quota to which the quota preference is applied. A\nquota name is unique in the service. Example: `CpusPerProjectPerRegion`"
+                },
+                "reconciling": {
+                  "type": "boolean",
+                  "description": "Output only. Is the quota preference pending Google Cloud approval and\nfulfillment.",
+                  "readOnly": true
+                },
+                "justification": {
+                  "type": "string",
+                  "description": "The reason / justification for this quota preference."
+                },
+                "contact_email": {
+                  "type": "string",
+                  "description": "Required. Input only. An email address that can be used for quota related\ncommunication between the Google Cloud and the user in case the Google\nCloud needs further information to make a decision on whether the user\npreferred quota can be granted.\n\nThe Google account for the email address must have quota update permission\nfor the project, folder or organization this quota preference is for."
+                }
+              },
+              "title": "Required. The resource being updated",
+              "required": [
+                "quota_config",
+                "service",
+                "quota_id",
+                "contact_email"
+              ]
+            }
+          },
+          {
+            "name": "allow_missing",
+            "description": "Optional. If set to true, and the quota preference is not found, a new one\nwill be created. In this situation, `update_mask` is ignored.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "validate_only",
+            "description": "Optional. If set to true, validate the request, but do not actually update.\nNote that a request being valid does not mean that the request is\nguaranteed to be fulfilled.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "ignore_safety_checks",
+            "description": "The list of quota safety checks to be ignored.\n\n - QUOTA_DECREASE_BELOW_USAGE: Validates that a quota mutation would not cause the consumer's effective\nlimit to be lower than the consumer's quota usage.\n - QUOTA_DECREASE_PERCENTAGE_TOO_HIGH: Validates that a quota mutation would not cause the consumer's effective\nlimit to decrease by more than 10 percent.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "QUOTA_DECREASE_BELOW_USAGE",
+                "QUOTA_DECREASE_PERCENTAGE_TOO_HIGH"
+              ]
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    },
+    "/v1/{quota_preference.name}": {
+      "patch": {
+        "summary": "Updates the parameters of a single QuotaPreference. It can updates the\nconfig in any states, not just the ones pending approval.",
+        "operationId": "UpdateQuotaPreference",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1QuotaPreference"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "quota_preference.name",
+            "description": "Required except in the CREATE requests.\nThe resource name of the quota preference.\nThe ID component following \"locations/\" must be \"global\".\nExample:\n`projects/123/locations/global/quotaPreferences/my-config-for-us-east1`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/quotaPreferences/[^/]+"
+          },
+          {
+            "name": "quota_preference",
+            "description": "Required. The resource being updated",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dimensions": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Immutable. The dimensions that this quota preference applies to. The key of\nthe map entry is the name of a dimension, such as \"region\", \"zone\",\n\"network_id\", and the value of the map entry is the dimension value.\n\nIf a dimension is missing from the map of dimensions, the quota preference\napplies to all the dimension values except for those that have other quota\npreferences configured for the specific value.\n\nNOTE: QuotaPreferences can only be applied across all values of \"user\" and\n\"resource\" dimension. Do not set values for \"user\" or \"resource\" in the\ndimension map.\n\nExample: {\"provider\", \"Foo Inc\"} where \"provider\" is a service specific\ndimension."
+                },
+                "quota_config": {
+                  "$ref": "#/definitions/v1QuotaConfig",
+                  "description": "Required. Preferred quota configuration."
+                },
+                "etag": {
+                  "type": "string",
+                  "description": "Optional. The current etag of the quota preference. If an etag is provided\non update and does not match the current server's etag of the quota\npreference, the request will be blocked and an ABORTED error will be\nreturned. See https://google.aip.dev/134#etags for more details on etags."
+                },
+                "create_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "Output only. Create time stamp",
+                  "readOnly": true
+                },
+                "update_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "Output only. Update time stamp",
+                  "readOnly": true
+                },
+                "service": {
+                  "type": "string",
+                  "description": "Required. The name of the service to which the quota preference is applied."
+                },
+                "quota_id": {
+                  "type": "string",
+                  "title": "Required. The id of the quota to which the quota preference is applied. A\nquota name is unique in the service. Example: `CpusPerProjectPerRegion`"
+                },
+                "reconciling": {
+                  "type": "boolean",
+                  "description": "Output only. Is the quota preference pending Google Cloud approval and\nfulfillment.",
+                  "readOnly": true
+                },
+                "justification": {
+                  "type": "string",
+                  "description": "The reason / justification for this quota preference."
+                },
+                "contact_email": {
+                  "type": "string",
+                  "description": "Required. Input only. An email address that can be used for quota related\ncommunication between the Google Cloud and the user in case the Google\nCloud needs further information to make a decision on whether the user\npreferred quota can be granted.\n\nThe Google account for the email address must have quota update permission\nfor the project, folder or organization this quota preference is for."
+                }
+              },
+              "title": "Required. The resource being updated",
+              "required": [
+                "quota_config",
+                "service",
+                "quota_id",
+                "contact_email"
+              ]
+            }
+          },
+          {
+            "name": "allow_missing",
+            "description": "Optional. If set to true, and the quota preference is not found, a new one\nwill be created. In this situation, `update_mask` is ignored.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "validate_only",
+            "description": "Optional. If set to true, validate the request, but do not actually update.\nNote that a request being valid does not mean that the request is\nguaranteed to be fulfilled.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "ignore_safety_checks",
+            "description": "The list of quota safety checks to be ignored.\n\n - QUOTA_DECREASE_BELOW_USAGE: Validates that a quota mutation would not cause the consumer's effective\nlimit to be lower than the consumer's quota usage.\n - QUOTA_DECREASE_PERCENTAGE_TOO_HIGH: Validates that a quota mutation would not cause the consumer's effective\nlimit to decrease by more than 10 percent.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "QUOTA_DECREASE_BELOW_USAGE",
+                "QUOTA_DECREASE_PERCENTAGE_TOO_HIGH"
+              ]
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "CloudQuotas"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "QuotaConfigOrigin": {
+      "type": "string",
+      "enum": [
+        "CLOUD_CONSOLE",
+        "AUTO_ADJUSTER"
+      ],
+      "description": "The enumeration of the origins of quota preference requests.\n\n - CLOUD_CONSOLE: Created through Cloud Console.\n - AUTO_ADJUSTER: Generated by automatic quota adjustment."
+    },
+    "QuotaIncreaseEligibilityIneligibilityReason": {
+      "type": "string",
+      "enum": [
+        "NO_VALID_BILLING_ACCOUNT",
+        "OTHER"
+      ],
+      "description": "The enumeration of reasons when it is ineligible to request increase\nadjustment.\n\n - NO_VALID_BILLING_ACCOUNT: The container is not linked with a valid billing account.\n - OTHER: Other reasons."
+    },
+    "QuotaInfoContainerType": {
+      "type": "string",
+      "enum": [
+        "PROJECT",
+        "FOLDER",
+        "ORGANIZATION"
+      ],
+      "description": "The enumeration of the types of a cloud resource container.\n\n - PROJECT: consumer project\n - FOLDER: folder\n - ORGANIZATION: organization"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1DimensionsInfo": {
+      "type": "object",
+      "properties": {
+        "dimensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The map of dimensions for this dimensions info. The key of a map entry\nis \"region\", \"zone\" or the name of a service specific dimension, and the\nvalue of a map entry is the value of the dimension.  If a dimension does\nnot appear in the map of dimensions, the dimensions info applies to all\nthe dimension values except for those that have another DimenisonInfo\ninstance configured for the specific value.\nExample: {\"provider\" : \"Foo Inc\"} where \"provider\" is a service specific\ndimension of a quota."
+        },
+        "details": {
+          "$ref": "#/definitions/v1QuotaDetails",
+          "description": "Quota details for the specified dimensions."
+        },
+        "applicable_locations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The applicable regions or zones of this dimensions info. The field will be\nset to ['global'] for quotas that are not per region or per zone.\nOtherwise, it will be set to the list of locations this dimension info is\napplicable to."
+        }
+      },
+      "description": "The detailed quota information such as effective quota value for a\ncombination of dimensions."
+    },
+    "v1ListQuotaInfosResponse": {
+      "type": "object",
+      "properties": {
+        "quota_infos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1QuotaInfo"
+          },
+          "title": "The list of QuotaInfo"
+        },
+        "next_page_token": {
+          "type": "string",
+          "description": "A token, which can be sent as `page_token` to retrieve the next page.\nIf this field is omitted, there are no subsequent pages."
+        }
+      },
+      "title": "Message for response to listing QuotaInfos"
+    },
+    "v1ListQuotaPreferencesResponse": {
+      "type": "object",
+      "properties": {
+        "quota_preferences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1QuotaPreference"
+          },
+          "title": "The list of QuotaPreference"
+        },
+        "next_page_token": {
+          "type": "string",
+          "description": "A token, which can be sent as `page_token` to retrieve the next page.\nIf this field is omitted, there are no subsequent pages."
+        },
+        "unreachable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Locations that could not be reached."
+        }
+      },
+      "title": "Message for response to listing QuotaPreferences"
+    },
+    "v1QuotaConfig": {
+      "type": "object",
+      "properties": {
+        "preferred_value": {
+          "type": "string",
+          "format": "int64",
+          "description": "Required. The preferred value. Must be greater than or equal to -1. If set\nto -1, it means the value is \"unlimited\"."
+        },
+        "state_detail": {
+          "type": "string",
+          "description": "Output only. Optional details about the state of this quota preference.",
+          "readOnly": true
+        },
+        "granted_value": {
+          "type": "string",
+          "format": "int64",
+          "description": "Output only. Granted quota value.",
+          "readOnly": true
+        },
+        "trace_id": {
+          "type": "string",
+          "description": "Output only. The trace id that the Google Cloud uses to provision the\nrequested quota. This trace id may be used by the client to contact Cloud\nsupport to track the state of a quota preference request. The trace id is\nonly produced for increase requests and is unique for each request. The\nquota decrease requests do not have a trace id.",
+          "readOnly": true
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Optional. The annotations map for clients to store small amounts of\narbitrary data. Do not put PII or other sensitive information here. See\nhttps://google.aip.dev/128#annotations"
+        },
+        "request_origin": {
+          "$ref": "#/definitions/QuotaConfigOrigin",
+          "description": "Output only. The origin of the quota preference request.",
+          "readOnly": true
+        }
+      },
+      "description": "The preferred quota configuration.",
+      "required": [
+        "preferred_value"
+      ]
+    },
+    "v1QuotaDetails": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "format": "int64",
+          "description": "The value currently in effect and being enforced."
+        }
+      },
+      "description": "The quota details for a map of dimensions."
+    },
+    "v1QuotaIncreaseEligibility": {
+      "type": "object",
+      "properties": {
+        "is_eligible": {
+          "type": "boolean",
+          "description": "Whether a higher quota value can be requested for the quota."
+        },
+        "ineligibility_reason": {
+          "$ref": "#/definitions/QuotaIncreaseEligibilityIneligibilityReason",
+          "description": "The reason of why it is ineligible to request increased value of the quota.\nIf the is_eligible field is true, it defaults to\nINELIGIBILITY_REASON_UNSPECIFIED."
+        }
+      },
+      "description": "Eligibility information regarding requesting increase adjustment of a quota."
+    },
+    "v1QuotaInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Resource name of this QuotaInfo.\nThe ID component following \"locations/\" must be \"global\".\nExample:\n`projects/123/locations/global/services/compute.googleapis.com/quotaInfos/CpusPerProjectPerRegion`"
+        },
+        "quota_id": {
+          "type": "string",
+          "title": "The id of the quota, which is unquie within the service.\nExample: `CpusPerProjectPerRegion`"
+        },
+        "metric": {
+          "type": "string",
+          "title": "The metric of the quota. It specifies the resources consumption the quota\nis defined for.\nExample: `compute.googleapis.com/cpus`"
+        },
+        "service": {
+          "type": "string",
+          "title": "The name of the service in which the quota is defined.\nExample: `compute.googleapis.com`"
+        },
+        "is_precise": {
+          "type": "boolean",
+          "description": "Whether this is a precise quota. A precise quota is tracked with absolute\nprecision. In contrast, an imprecise quota is not tracked with precision."
+        },
+        "refresh_interval": {
+          "type": "string",
+          "description": "The reset time interval for the quota. Refresh interval applies to rate\nquota only.\nExample: \"minute\" for per minute, \"day\" for per day, or \"10 seconds\" for\nevery 10 seconds."
+        },
+        "container_type": {
+          "$ref": "#/definitions/QuotaInfoContainerType",
+          "description": "The container type of the QuotaInfo."
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The dimensions the quota is defined on."
+        },
+        "metric_display_name": {
+          "type": "string",
+          "title": "The display name of the quota metric"
+        },
+        "quota_display_name": {
+          "type": "string",
+          "description": "The display name of the quota."
+        },
+        "metric_unit": {
+          "type": "string",
+          "description": "The unit in which the metric value is reported, e.g., \"MByte\"."
+        },
+        "quota_increase_eligibility": {
+          "$ref": "#/definitions/v1QuotaIncreaseEligibility",
+          "description": "Whether it is eligible to request a higher quota value for this quota."
+        },
+        "is_fixed": {
+          "type": "boolean",
+          "title": "Whether the quota value is fixed or adjustable"
+        },
+        "dimensions_infos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1DimensionsInfo"
+          },
+          "description": "The collection of dimensions info ordered by their dimensions from more\nspecific ones to less specific ones."
+        },
+        "is_concurrent": {
+          "type": "boolean",
+          "description": "Whether the quota is a concurrent quota. Concurrent quotas are enforced\non the total number of concurrent operations in flight at any given time."
+        },
+        "service_request_quota_uri": {
+          "type": "string",
+          "description": "URI to the page where the user can request more quotas for the cloud\nservice, such as\nhttps://docs.google.com/spreadsheet/viewform?formkey=abc123\u0026entry_0={email}\u0026entry_1={id}.\nGoogle Developers Console UI replace {email} with the current\nuser's e-mail, {id} with the current project number, or organization ID\nwith \"organizations/\" prefix. For example,\nhttps://docs.google.com/spreadsheet/viewform?formkey=abc123\u0026entry_0=johndoe@gmail.com\u0026entry_1=25463754,\nor\nhttps://docs.google.com/spreadsheet/viewform?formkey=abc123\u0026entry_0=johndoe@gmail.com\u0026entry_1=organizations/26474422."
+        }
+      },
+      "description": "QuotaInfo represents information about a particular quota for a given\nproject, folder or organization."
+    },
+    "v1QuotaPreference": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Required except in the CREATE requests.\nThe resource name of the quota preference.\nThe ID component following \"locations/\" must be \"global\".\nExample:\n`projects/123/locations/global/quotaPreferences/my-config-for-us-east1`"
+        },
+        "dimensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Immutable. The dimensions that this quota preference applies to. The key of\nthe map entry is the name of a dimension, such as \"region\", \"zone\",\n\"network_id\", and the value of the map entry is the dimension value.\n\nIf a dimension is missing from the map of dimensions, the quota preference\napplies to all the dimension values except for those that have other quota\npreferences configured for the specific value.\n\nNOTE: QuotaPreferences can only be applied across all values of \"user\" and\n\"resource\" dimension. Do not set values for \"user\" or \"resource\" in the\ndimension map.\n\nExample: {\"provider\", \"Foo Inc\"} where \"provider\" is a service specific\ndimension."
+        },
+        "quota_config": {
+          "$ref": "#/definitions/v1QuotaConfig",
+          "description": "Required. Preferred quota configuration."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Optional. The current etag of the quota preference. If an etag is provided\non update and does not match the current server's etag of the quota\npreference, the request will be blocked and an ABORTED error will be\nreturned. See https://google.aip.dev/134#etags for more details on etags."
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Output only. Create time stamp",
+          "readOnly": true
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Output only. Update time stamp",
+          "readOnly": true
+        },
+        "service": {
+          "type": "string",
+          "description": "Required. The name of the service to which the quota preference is applied."
+        },
+        "quota_id": {
+          "type": "string",
+          "title": "Required. The id of the quota to which the quota preference is applied. A\nquota name is unique in the service. Example: `CpusPerProjectPerRegion`"
+        },
+        "reconciling": {
+          "type": "boolean",
+          "description": "Output only. Is the quota preference pending Google Cloud approval and\nfulfillment.",
+          "readOnly": true
+        },
+        "justification": {
+          "type": "string",
+          "description": "The reason / justification for this quota preference."
+        },
+        "contact_email": {
+          "type": "string",
+          "description": "Required. Input only. An email address that can be used for quota related\ncommunication between the Google Cloud and the user in case the Google\nCloud needs further information to make a decision on whether the user\npreferred quota can be granted.\n\nThe Google account for the email address must have quota update permission\nfor the project, folder or organization this quota preference is for."
+        }
+      },
+      "description": "QuotaPreference represents the preferred quota configuration specified for\na project, folder or organization. There is only one QuotaPreference\nresource for a quota value targeting a unique set of dimensions.",
+      "required": [
+        "quota_config",
+        "service",
+        "quota_id",
+        "contact_email"
+      ]
+    },
+    "v1QuotaSafetyCheck": {
+      "type": "string",
+      "enum": [
+        "QUOTA_DECREASE_BELOW_USAGE",
+        "QUOTA_DECREASE_PERCENTAGE_TOO_HIGH"
+      ],
+      "description": "Enumerations of quota safety checks.\n\n - QUOTA_DECREASE_BELOW_USAGE: Validates that a quota mutation would not cause the consumer's effective\nlimit to be lower than the consumer's quota usage.\n - QUOTA_DECREASE_PERCENTAGE_TOO_HIGH: Validates that a quota mutation would not cause the consumer's effective\nlimit to decrease by more than 10 percent."
+    }
+  }
+}

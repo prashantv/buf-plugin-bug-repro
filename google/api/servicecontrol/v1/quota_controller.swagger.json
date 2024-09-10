@@ -1,0 +1,427 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "google/api/servicecontrol/v1/quota_controller.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "QuotaController"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/services/{service_name}:allocateQuota": {
+      "post": {
+        "summary": "Attempts to allocate quota for the specified consumer. It should be called\nbefore the operation is executed.",
+        "description": "This method requires the `servicemanagement.services.quota`\npermission on the specified service. For more information, see\n[Cloud IAM](https://cloud.google.com/iam).\n\n**NOTE:** The client **must** fail-open on server errors `INTERNAL`,\n`UNKNOWN`, `DEADLINE_EXCEEDED`, and `UNAVAILABLE`. To ensure system\nreliability, the server may inject these errors to prohibit any hard\ndependency on the quota functionality.",
+        "operationId": "AllocateQuota",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1AllocateQuotaResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "service_name",
+            "description": "Name of the service as specified in the service configuration. For example,\n`\"pubsub.googleapis.com\"`.\n\nSee [google.api.Service][google.api.Service] for the definition of a service name.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QuotaControllerAllocateQuotaBody"
+            }
+          }
+        ],
+        "tags": [
+          "QuotaController"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "DistributionExemplar": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "format": "double",
+          "description": "Value of the exemplar point. This value determines to which bucket the\nexemplar belongs."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The observation (sampling) time of the above value."
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          },
+          "description": "Trace: type.googleapis.com/google.monitoring.v3.SpanContext\n\n  Literal string: type.googleapis.com/google.protobuf.StringValue\n\n  Labels dropped during aggregation:\n    type.googleapis.com/google.monitoring.v3.DroppedLabels\n\nThere may be only a single attachment of any given message type in a\nsingle exemplar, and this is enforced by the system.",
+          "title": "Contextual information about the example value. Examples are:"
+        }
+      },
+      "description": "Exemplars are example points that may be used to annotate aggregated\ndistribution values. They are metadata that gives information about a\nparticular value added to a Distribution bucket, such as a trace ID that\nwas active when a value was added. They may contain further information,\nsuch as a example values and timestamps, origin, etc."
+    },
+    "DistributionExplicitBuckets": {
+      "type": "object",
+      "properties": {
+        "bounds": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": "'bound' is a list of strictly increasing boundaries between\nbuckets. Note that a list of length N-1 defines N buckets because\nof fenceposting. See comments on `bucket_options` for details.\n\nThe i'th finite bucket covers the interval\n  [bound[i-1], bound[i])\nwhere i ranges from 1 to bound_size() - 1. Note that there are no\nfinite buckets at all if 'bound' only contains a single element; in\nthat special case the single bound defines the boundary between the\nunderflow and overflow buckets.\n\nbucket number                   lower bound    upper bound\n i == 0 (underflow)              -inf           bound[i]\n 0 \u003c i \u003c bound_size()            bound[i-1]     bound[i]\n i == bound_size() (overflow)    bound[i-1]     +inf"
+        }
+      },
+      "description": "Describing buckets with arbitrary user-provided width."
+    },
+    "DistributionExponentialBuckets": {
+      "type": "object",
+      "properties": {
+        "num_finite_buckets": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of finite buckets. With the underflow and overflow buckets,\nthe total number of buckets is `num_finite_buckets` + 2.\nSee comments on `bucket_options` for details."
+        },
+        "growth_factor": {
+          "type": "number",
+          "format": "double",
+          "description": "The i'th exponential bucket covers the interval\n  [scale * growth_factor^(i-1), scale * growth_factor^i)\nwhere i ranges from 1 to num_finite_buckets inclusive.\nMust be larger than 1.0."
+        },
+        "scale": {
+          "type": "number",
+          "format": "double",
+          "description": "The i'th exponential bucket covers the interval\n  [scale * growth_factor^(i-1), scale * growth_factor^i)\nwhere i ranges from 1 to num_finite_buckets inclusive.\nMust be \u003e 0."
+        }
+      },
+      "description": "Describing buckets with exponentially growing width."
+    },
+    "DistributionLinearBuckets": {
+      "type": "object",
+      "properties": {
+        "num_finite_buckets": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of finite buckets. With the underflow and overflow buckets,\nthe total number of buckets is `num_finite_buckets` + 2.\nSee comments on `bucket_options` for details."
+        },
+        "width": {
+          "type": "number",
+          "format": "double",
+          "description": "The i'th linear bucket covers the interval\n  [offset + (i-1) * width, offset + i * width)\nwhere i ranges from 1 to num_finite_buckets, inclusive.\nMust be strictly positive."
+        },
+        "offset": {
+          "type": "number",
+          "format": "double",
+          "description": "The i'th linear bucket covers the interval\n  [offset + (i-1) * width, offset + i * width)\nwhere i ranges from 1 to num_finite_buckets, inclusive."
+        }
+      },
+      "description": "Describing buckets with constant width."
+    },
+    "QuotaControllerAllocateQuotaBody": {
+      "type": "object",
+      "properties": {
+        "allocate_operation": {
+          "$ref": "#/definitions/v1QuotaOperation",
+          "description": "Operation that describes the quota allocation."
+        },
+        "service_config_id": {
+          "type": "string",
+          "description": "Specifies which version of service configuration should be used to process\nthe request. If unspecified or no matching version can be found, the latest\none will be used."
+        }
+      },
+      "description": "Request message for the AllocateQuota method."
+    },
+    "QuotaOperationQuotaMode": {
+      "type": "string",
+      "enum": [
+        "NORMAL",
+        "BEST_EFFORT",
+        "CHECK_ONLY",
+        "QUERY_ONLY",
+        "ADJUST_ONLY"
+      ],
+      "description": "Supported quota modes.\n\n - NORMAL: For AllocateQuota request, allocates quota for the amount specified in\nthe service configuration or specified using the quota metrics. If the\namount is higher than the available quota, allocation error will be\nreturned and no quota will be allocated.\nIf multiple quotas are part of the request, and one fails, none of the\nquotas are allocated or released.\n - BEST_EFFORT: The operation allocates quota for the amount specified in the service\nconfiguration or specified using the quota metrics. If the amount is\nhigher than the available quota, request does not fail but all available\nquota will be allocated.\nFor rate quota, BEST_EFFORT will continue to deduct from other groups\neven if one does not have enough quota. For allocation, it will find the\nminimum available amount across all groups and deduct that amount from\nall the affected groups.\n - CHECK_ONLY: For AllocateQuota request, only checks if there is enough quota\navailable and does not change the available quota. No lock is placed on\nthe available quota either.\n - QUERY_ONLY: Unimplemented. When used in AllocateQuotaRequest, this returns the\neffective quota limit(s) in the response, and no quota check will be\nperformed. Not supported for other requests, and even for\nAllocateQuotaRequest, this is currently supported only for allowlisted\nservices.\n - ADJUST_ONLY: The operation allocates quota for the amount specified in the service\nconfiguration or specified using the quota metrics. If the requested\namount is higher than the available quota, request does not fail and\nremaining quota would become negative (going over the limit).\nNot supported for Rate Quota."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of\n[google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\n[google.rpc.Status.details][google.rpc.Status.details] field, or localized\nby the client."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          },
+          "description": "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use."
+        }
+      },
+      "description": "The `Status` type defines a logical error model that is suitable for\ndifferent programming environments, including REST APIs and RPC APIs. It is\nused by [gRPC](https://github.com/grpc). Each `Status` message contains\nthree pieces of data: error code, error message, and error details.\n\nYou can find out more about this error model and how to work with it in the\n[API Design Guide](https://cloud.google.com/apis/design/errors)."
+    },
+    "servicecontrolv1Distribution": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64",
+          "description": "The total number of samples in the distribution. Must be \u003e= 0."
+        },
+        "mean": {
+          "type": "number",
+          "format": "double",
+          "description": "The arithmetic mean of the samples in the distribution. If `count` is\nzero then this field must be zero."
+        },
+        "minimum": {
+          "type": "number",
+          "format": "double",
+          "description": "The minimum of the population of values. Ignored if `count` is zero."
+        },
+        "maximum": {
+          "type": "number",
+          "format": "double",
+          "description": "The maximum of the population of values. Ignored if `count` is zero."
+        },
+        "sum_of_squared_deviation": {
+          "type": "number",
+          "format": "double",
+          "description": "The sum of squared deviations from the mean:\n  Sum[i=1..count]((x_i - mean)^2)\nwhere each x_i is a sample values. If `count` is zero then this field\nmust be zero, otherwise validation of the request fails."
+        },
+        "bucket_counts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          },
+          "description": "The number of samples in each histogram bucket. `bucket_counts` are\noptional. If present, they must sum to the `count` value.\n\nThe buckets are defined below in `bucket_option`. There are N buckets.\n`bucket_counts[0]` is the number of samples in the underflow bucket.\n`bucket_counts[1]` to `bucket_counts[N-1]` are the numbers of samples\nin each of the finite buckets. And `bucket_counts[N] is the number\nof samples in the overflow bucket. See the comments of `bucket_option`\nbelow for more details.\n\nAny suffix of trailing zeros may be omitted."
+        },
+        "linear_buckets": {
+          "$ref": "#/definitions/DistributionLinearBuckets",
+          "description": "Buckets with constant width."
+        },
+        "exponential_buckets": {
+          "$ref": "#/definitions/DistributionExponentialBuckets",
+          "description": "Buckets with exponentially growing width."
+        },
+        "explicit_buckets": {
+          "$ref": "#/definitions/DistributionExplicitBuckets",
+          "description": "Buckets with arbitrary user-provided width."
+        },
+        "exemplars": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/DistributionExemplar"
+          },
+          "description": "Example points. Must be in increasing order of `value` field."
+        }
+      },
+      "description": "* the arithmetic mean of the samples\n* the minimum and maximum of the samples\n* the sum-squared-deviation of the samples, used to compute variance\n* a histogram of the values of the sample points",
+      "title": "Distribution represents a frequency distribution of double-valued sample\npoints. It contains the size of the population of sample points plus\nadditional optional information:"
+    },
+    "v1AllocateQuotaResponse": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "description": "The same operation_id value used in the AllocateQuotaRequest. Used for\nlogging and diagnostics purposes."
+        },
+        "allocate_errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1QuotaError"
+          },
+          "description": "Indicates the decision of the allocate."
+        },
+        "quota_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MetricValueSet"
+          },
+          "description": "1. Per quota group or per quota metric incremental usage will be specified\nusing the following delta metric :\n  \"serviceruntime.googleapis.com/api/consumer/quota_used_count\"\n\n2. The quota limit reached condition will be specified using the following\nboolean metric :\n  \"serviceruntime.googleapis.com/quota/exceeded\"",
+          "title": "Quota metrics to indicate the result of allocation. Depending on the\nrequest, one or more of the following metrics will be included:"
+        },
+        "service_config_id": {
+          "type": "string",
+          "description": "ID of the actual config used to process the request."
+        }
+      },
+      "description": "Response message for the AllocateQuota method."
+    },
+    "v1MetricValue": {
+      "type": "object",
+      "properties": {
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The labels describing the metric value.\nSee comments on [google.api.servicecontrol.v1.Operation.labels][google.api.servicecontrol.v1.Operation.labels] for\nthe overriding relationship.\nNote that this map must not contain monitored resource labels."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start of the time period over which this metric value's measurement\napplies. The time period has different semantics for different metric\ntypes (cumulative, delta, and gauge). See the metric definition\ndocumentation in the service configuration for details. If not specified,\n[google.api.servicecontrol.v1.Operation.start_time][google.api.servicecontrol.v1.Operation.start_time] will be used."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end of the time period over which this metric value's measurement\napplies.  If not specified,\n[google.api.servicecontrol.v1.Operation.end_time][google.api.servicecontrol.v1.Operation.end_time] will be used."
+        },
+        "bool_value": {
+          "type": "boolean",
+          "description": "A boolean value."
+        },
+        "int64_value": {
+          "type": "string",
+          "format": "int64",
+          "description": "A signed 64-bit integer value."
+        },
+        "double_value": {
+          "type": "number",
+          "format": "double",
+          "description": "A double precision floating point value."
+        },
+        "string_value": {
+          "type": "string",
+          "description": "A text string value."
+        },
+        "distribution_value": {
+          "$ref": "#/definitions/servicecontrolv1Distribution",
+          "description": "A distribution value."
+        }
+      },
+      "description": "Represents a single metric value."
+    },
+    "v1MetricValueSet": {
+      "type": "object",
+      "properties": {
+        "metric_name": {
+          "type": "string",
+          "description": "The metric name defined in the service configuration."
+        },
+        "metric_values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MetricValue"
+          },
+          "description": "The values in this metric."
+        }
+      },
+      "description": "Represents a set of metric values in the same metric.\nEach metric value in the set should have a unique combination of start time,\nend time, and label values."
+    },
+    "v1QuotaError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "$ref": "#/definitions/v1QuotaErrorCode",
+          "description": "Error code."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject to whom this error applies. See the specific enum for more details\non this field. For example, \"clientip:\u003cip address of client\u003e\" or\n\"project:\u003cGoogle developer project id\u003e\"."
+        },
+        "description": {
+          "type": "string",
+          "description": "Free-form text that provides details on the cause of the error."
+        },
+        "status": {
+          "$ref": "#/definitions/rpcStatus",
+          "description": "Contains additional information about the quota error.\nIf available, `status.code` will be non zero."
+        }
+      },
+      "description": "Represents error information for [QuotaOperation][google.api.servicecontrol.v1.QuotaOperation]."
+    },
+    "v1QuotaErrorCode": {
+      "type": "string",
+      "enum": [
+        "RESOURCE_EXHAUSTED",
+        "BILLING_NOT_ACTIVE",
+        "PROJECT_DELETED",
+        "API_KEY_INVALID",
+        "API_KEY_EXPIRED"
+      ],
+      "description": "Error codes related to project config validations are deprecated since the\nquota controller methods do not perform these validations. Instead services\nhave to call the Check method, without quota_properties field, to perform\nthese validations before calling the quota controller methods. These\nmethods check only for project deletion to be wipe out compliant.\n\n - RESOURCE_EXHAUSTED: Quota allocation failed.\nSame as [google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED].\n - BILLING_NOT_ACTIVE: Consumer cannot access the service because the service requires active\nbilling.\n - PROJECT_DELETED: Consumer's project has been marked as deleted (soft deletion).\n - API_KEY_INVALID: Specified API key is invalid.\n - API_KEY_EXPIRED: Specified API Key has expired."
+    },
+    "v1QuotaOperation": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "description": "Identity of the operation. This is expected to be unique within the scope\nof the service that generated the operation, and guarantees idempotency in\ncase of retries.\n\nIn order to ensure best performance and latency in the Quota backends,\noperation_ids are optimally associated with time, so that related\noperations can be accessed fast in storage. For this reason, the\nrecommended token for services that intend to operate at a high QPS is\nUnix time in nanos + UUID"
+        },
+        "method_name": {
+          "type": "string",
+          "description": "Fully qualified name of the API method for which this quota operation is\nrequested. This name is used for matching quota rules or metric rules and\nbilling status rules defined in service configuration.\n\nThis field should not be set if any of the following is true:\n(1) the quota operation is performed on non-API resources.\n(2) quota_metrics is set because the caller is doing quota override.\n\n\nExample of an RPC method name:\n    google.example.library.v1.LibraryService.CreateShelf"
+        },
+        "consumer_id": {
+          "type": "string",
+          "description": "Identity of the consumer for whom this quota operation is being performed.\n\nThis can be in one of the following formats:\n  project:\u003cproject_id\u003e,\n  project_number:\u003cproject_number\u003e,\n  api_key:\u003capi_key\u003e."
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Labels describing the operation."
+        },
+        "quota_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1MetricValueSet"
+          },
+          "description": "Represents information about this operation. Each MetricValueSet\ncorresponds to a metric defined in the service configuration.\nThe data type used in the MetricValueSet must agree with\nthe data type specified in the metric definition.\n\nWithin a single operation, it is not allowed to have more than one\nMetricValue instances that have the same metric names and identical\nlabel value combinations. If a request has such duplicated MetricValue\ninstances, the entire request is rejected with\nan invalid argument error.\n\nThis field is mutually exclusive with method_name."
+        },
+        "quota_mode": {
+          "$ref": "#/definitions/QuotaOperationQuotaMode",
+          "description": "Quota mode for this operation."
+        }
+      },
+      "description": "Represents information regarding a quota operation."
+    }
+  }
+}

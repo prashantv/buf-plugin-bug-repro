@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package protos;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/prashantv/buf-plugin-bug-repro";
+
+message UpdateRequest {
+  // NOTE: This commented field causes an error.
+  // string id = 1;
+}
+
+message UpdateResponse {
+}
+
+service ExampleService {
+  rpc Update(UpdateRequest) returns (UpdateResponse) {
+    option (google.api.http) = {
+        put: "/config/{id}"
+        body: "*"
+    };
+  };
+}

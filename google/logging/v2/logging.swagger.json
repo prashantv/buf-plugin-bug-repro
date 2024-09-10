@@ -1,0 +1,1436 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "google/logging/v2/logging.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "LoggingServiceV2"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v2/entries:list": {
+      "post": {
+        "summary": "Lists log entries.  Use this method to retrieve log entries that originated\nfrom a project/folder/organization/billing account.  For ways to export log\nentries, see [Exporting\nLogs](https://cloud.google.com/logging/docs/export).",
+        "operationId": "ListLogEntries",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogEntriesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "The parameters to `ListLogEntries`.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2ListLogEntriesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/entries:tail": {
+      "post": {
+        "summary": "Streaming read of log entries as they are ingested. Until the stream is\nterminated, it will continue reading logs.",
+        "operationId": "TailLogEntries",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/v2TailLogEntriesResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of v2TailLogEntriesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "The parameters to `TailLogEntries`. (streaming inputs)",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2TailLogEntriesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/entries:write": {
+      "post": {
+        "summary": "Writes log entries to Logging. This API method is the\nonly way to send log entries to Logging. This method\nis used, directly or indirectly, by the Logging agent\n(fluentd) and all logging libraries configured to use Logging.\nA single request may contain log entries for a maximum of 1000\ndifferent resources (projects, organizations, billing accounts or\nfolders)",
+        "operationId": "WriteLogEntries",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2WriteLogEntriesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "The parameters to WriteLogEntries.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2WriteLogEntriesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/monitoredResourceDescriptors": {
+      "get": {
+        "summary": "Lists the descriptors for monitored resource types used by Logging.",
+        "operationId": "ListMonitoredResourceDescriptors",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListMonitoredResourceDescriptorsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{log_name_1}": {
+      "delete": {
+        "summary": "Deletes all the log entries in a log for the _Default Log Bucket. The log\nreappears if it receives new entries. Log entries written shortly before\nthe delete operation might not be deleted. Entries received after the\ndelete operation with a timestamp before the operation will be deleted.",
+        "operationId": "DeleteLog2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "log_name_1",
+            "description": "Required. The resource name of the log to delete:\n\n* `projects/[PROJECT_ID]/logs/[LOG_ID]`\n* `organizations/[ORGANIZATION_ID]/logs/[LOG_ID]`\n* `billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]`\n* `folders/[FOLDER_ID]/logs/[LOG_ID]`\n\n`[LOG_ID]` must be URL-encoded. For example,\n`\"projects/my-project-id/logs/syslog\"`,\n`\"organizations/123/logs/cloudaudit.googleapis.com%2Factivity\"`.\n\nFor more information about log names, see\n[LogEntry][google.logging.v2.LogEntry].",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "[^/]+/[^/]+/logs/[^/]+"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{log_name_2}": {
+      "delete": {
+        "summary": "Deletes all the log entries in a log for the _Default Log Bucket. The log\nreappears if it receives new entries. Log entries written shortly before\nthe delete operation might not be deleted. Entries received after the\ndelete operation with a timestamp before the operation will be deleted.",
+        "operationId": "DeleteLog3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "log_name_2",
+            "description": "Required. The resource name of the log to delete:\n\n* `projects/[PROJECT_ID]/logs/[LOG_ID]`\n* `organizations/[ORGANIZATION_ID]/logs/[LOG_ID]`\n* `billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]`\n* `folders/[FOLDER_ID]/logs/[LOG_ID]`\n\n`[LOG_ID]` must be URL-encoded. For example,\n`\"projects/my-project-id/logs/syslog\"`,\n`\"organizations/123/logs/cloudaudit.googleapis.com%2Factivity\"`.\n\nFor more information about log names, see\n[LogEntry][google.logging.v2.LogEntry].",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+/logs/[^/]+"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{log_name_3}": {
+      "delete": {
+        "summary": "Deletes all the log entries in a log for the _Default Log Bucket. The log\nreappears if it receives new entries. Log entries written shortly before\nthe delete operation might not be deleted. Entries received after the\ndelete operation with a timestamp before the operation will be deleted.",
+        "operationId": "DeleteLog4",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "log_name_3",
+            "description": "Required. The resource name of the log to delete:\n\n* `projects/[PROJECT_ID]/logs/[LOG_ID]`\n* `organizations/[ORGANIZATION_ID]/logs/[LOG_ID]`\n* `billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]`\n* `folders/[FOLDER_ID]/logs/[LOG_ID]`\n\n`[LOG_ID]` must be URL-encoded. For example,\n`\"projects/my-project-id/logs/syslog\"`,\n`\"organizations/123/logs/cloudaudit.googleapis.com%2Factivity\"`.\n\nFor more information about log names, see\n[LogEntry][google.logging.v2.LogEntry].",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+/logs/[^/]+"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{log_name_4}": {
+      "delete": {
+        "summary": "Deletes all the log entries in a log for the _Default Log Bucket. The log\nreappears if it receives new entries. Log entries written shortly before\nthe delete operation might not be deleted. Entries received after the\ndelete operation with a timestamp before the operation will be deleted.",
+        "operationId": "DeleteLog5",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "log_name_4",
+            "description": "Required. The resource name of the log to delete:\n\n* `projects/[PROJECT_ID]/logs/[LOG_ID]`\n* `organizations/[ORGANIZATION_ID]/logs/[LOG_ID]`\n* `billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]`\n* `folders/[FOLDER_ID]/logs/[LOG_ID]`\n\n`[LOG_ID]` must be URL-encoded. For example,\n`\"projects/my-project-id/logs/syslog\"`,\n`\"organizations/123/logs/cloudaudit.googleapis.com%2Factivity\"`.\n\nFor more information about log names, see\n[LogEntry][google.logging.v2.LogEntry].",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "billingAccounts/[^/]+/logs/[^/]+"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{log_name}": {
+      "delete": {
+        "summary": "Deletes all the log entries in a log for the _Default Log Bucket. The log\nreappears if it receives new entries. Log entries written shortly before\nthe delete operation might not be deleted. Entries received after the\ndelete operation with a timestamp before the operation will be deleted.",
+        "operationId": "DeleteLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "log_name",
+            "description": "Required. The resource name of the log to delete:\n\n* `projects/[PROJECT_ID]/logs/[LOG_ID]`\n* `organizations/[ORGANIZATION_ID]/logs/[LOG_ID]`\n* `billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]`\n* `folders/[FOLDER_ID]/logs/[LOG_ID]`\n\n`[LOG_ID]` must be URL-encoded. For example,\n`\"projects/my-project-id/logs/syslog\"`,\n`\"organizations/123/logs/cloudaudit.googleapis.com%2Factivity\"`.\n\nFor more information about log names, see\n[LogEntry][google.logging.v2.LogEntry].",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/logs/[^/]+"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent_1}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_1",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent_2}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs3",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_2",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent_3}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs4",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_3",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent_4}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs5",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_4",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "billingAccounts/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent_5}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs6",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_5",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/buckets/[^/]+/views/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent_6}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs7",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_6",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "organizations/[^/]+/locations/[^/]+/buckets/[^/]+/views/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent_7}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs8",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_7",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "folders/[^/]+/locations/[^/]+/buckets/[^/]+/views/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent_8}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs9",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent_8",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "billingAccounts/[^/]+/locations/[^/]+/buckets/[^/]+/views/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent}/logs": {
+      "get": {
+        "summary": "Lists the logs in projects, organizations, folders, or billing accounts.\nOnly logs that have entries are listed.",
+        "operationId": "ListLogs",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Required. The resource name to list logs for:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "[^/]+/[^/]+"
+          },
+          {
+            "name": "resource_names",
+            "description": "Optional. List of resource names to list logs for:\n\n* `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nTo support legacy queries, it could also be:\n\n*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nThe resource name in the `parent` field is added to this list.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored.  The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `pageToken` must be the value of\n`nextPageToken` from the previous response.  The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LoggingServiceV2"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "SuppressionInfoReason": {
+      "type": "string",
+      "enum": [
+        "RATE_LIMIT",
+        "NOT_CONSUMED"
+      ],
+      "description": "An indicator of why entries were omitted.\n\n - RATE_LIMIT: Indicates suppression occurred due to relevant entries being\nreceived in excess of rate limits. For quotas and limits, see\n[Logging API quotas and\nlimits](https://cloud.google.com/logging/quotas#api-limits).\n - NOT_CONSUMED: Indicates suppression occurred due to the client not consuming\nresponses quickly enough."
+    },
+    "TailLogEntriesResponseSuppressionInfo": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "$ref": "#/definitions/SuppressionInfoReason",
+          "description": "The reason that entries were omitted from the session."
+        },
+        "suppressed_count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "A lower bound on the count of entries omitted due to `reason`."
+        }
+      },
+      "description": "Information about entries that were omitted from the session."
+    },
+    "apiLabelDescriptor": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The label key."
+        },
+        "value_type": {
+          "$ref": "#/definitions/apiLabelDescriptorValueType",
+          "description": "The type of data that can be assigned to the label."
+        },
+        "description": {
+          "type": "string",
+          "description": "A human-readable description for the label."
+        }
+      },
+      "description": "A description of a label."
+    },
+    "apiLabelDescriptorValueType": {
+      "type": "string",
+      "enum": [
+        "BOOL",
+        "INT64"
+      ],
+      "description": "Value types that can be used as label values.\n\n - BOOL: Boolean; true or false.\n - INT64: A 64-bit signed integer."
+    },
+    "apiLaunchStage": {
+      "type": "string",
+      "enum": [
+        "UNIMPLEMENTED",
+        "PRELAUNCH",
+        "EARLY_ACCESS",
+        "ALPHA",
+        "BETA",
+        "GA",
+        "DEPRECATED"
+      ],
+      "description": "The launch stage as defined by [Google Cloud Platform\nLaunch Stages](https://cloud.google.com/terms/launch-stages).\n\n - UNIMPLEMENTED: The feature is not yet implemented. Users can not use it.\n - PRELAUNCH: Prelaunch features are hidden from users and are only visible internally.\n - EARLY_ACCESS: Early Access features are limited to a closed group of testers. To use\nthese features, you must sign up in advance and sign a Trusted Tester\nagreement (which includes confidentiality provisions). These features may\nbe unstable, changed in backward-incompatible ways, and are not\nguaranteed to be released.\n - ALPHA: Alpha is a limited availability test for releases before they are cleared\nfor widespread use. By Alpha, all significant design issues are resolved\nand we are in the process of verifying functionality. Alpha customers\nneed to apply for access, agree to applicable terms, and have their\nprojects allowlisted. Alpha releases don't have to be feature complete,\nno SLAs are provided, and there are no technical support obligations, but\nthey will be far enough along that customers can actually use them in\ntest environments or for limited-use tests -- just like they would in\nnormal production cases.\n - BETA: Beta is the point at which we are ready to open a release for any\ncustomer to use. There are no SLA or technical support obligations in a\nBeta release. Products will be complete from a feature perspective, but\nmay have some open outstanding issues. Beta releases are suitable for\nlimited production use cases.\n - GA: GA features are open to all developers and are considered stable and\nfully qualified for production use.\n - DEPRECATED: Deprecated features are scheduled to be shut down and removed. For more\ninformation, see the \"Deprecation Policy\" section of our [Terms of\nService](https://cloud.google.com/terms/)\nand the [Google Cloud Platform Subject to the Deprecation\nPolicy](https://cloud.google.com/terms/deprecation) documentation."
+    },
+    "apiMonitoredResource": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Required. The monitored resource type. This field must match\nthe `type` field of a\n[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor]\nobject. For example, the type of a Compute Engine VM instance is\n`gce_instance`. Some descriptors include the service name in the type; for\nexample, the type of a Datastream stream is\n`datastream.googleapis.com/Stream`."
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Required. Values for all of the labels listed in the associated monitored\nresource descriptor. For example, Compute Engine VM instances use the\nlabels `\"project_id\"`, `\"instance_id\"`, and `\"zone\"`."
+        }
+      },
+      "description": "{ \"type\": \"gce_instance\",\n      \"labels\": { \"project_id\": \"my-project\",\n                  \"instance_id\": \"12345678901234\",\n                  \"zone\": \"us-central1-a\" }}",
+      "title": "An object representing a resource that can be used for monitoring, logging,\nbilling, or other purposes. Examples include virtual machine instances,\ndatabases, and storage devices such as disks. The `type` field identifies a\n[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor] object\nthat describes the resource's schema. Information in the `labels` field\nidentifies the actual resource and its attributes according to the schema.\nFor example, a particular Compute Engine VM instance could be represented by\nthe following object, because the\n[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor] for\n`\"gce_instance\"` has labels\n`\"project_id\"`, `\"instance_id\"` and `\"zone\"`:"
+    },
+    "apiMonitoredResourceDescriptor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Optional. The resource name of the monitored resource descriptor:\n`\"projects/{project_id}/monitoredResourceDescriptors/{type}\"` where\n{type} is the value of the `type` field in this object and\n{project_id} is a project ID that provides API-specific context for\naccessing the type.  APIs that do not use project information can use the\nresource name format `\"monitoredResourceDescriptors/{type}\"`."
+        },
+        "type": {
+          "type": "string",
+          "description": "Required. The monitored resource type. For example, the type\n`\"cloudsql_database\"` represents databases in Google Cloud SQL.\n For a list of types, see [Monitored resource\n types](https://cloud.google.com/monitoring/api/resources)\nand [Logging resource\ntypes](https://cloud.google.com/logging/docs/api/v2/resource-list)."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Optional. A concise name for the monitored resource type that might be\ndisplayed in user interfaces. It should be a Title Cased Noun Phrase,\nwithout any article or other determiners. For example,\n`\"Google Cloud SQL Database\"`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. A detailed description of the monitored resource type that might\nbe used in documentation."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiLabelDescriptor"
+          },
+          "description": "Required. A set of labels used to describe instances of this monitored\nresource type. For example, an individual Google Cloud SQL database is\nidentified by values for the labels `\"database_id\"` and `\"zone\"`."
+        },
+        "launch_stage": {
+          "$ref": "#/definitions/apiLaunchStage",
+          "description": "Optional. The launch stage of the monitored resource definition."
+        }
+      },
+      "description": "An object that describes the schema of a\n[MonitoredResource][google.api.MonitoredResource] object using a type name\nand a set of labels.  For example, the monitored resource descriptor for\nGoogle Compute Engine VM instances has a type of\n`\"gce_instance\"` and specifies the use of the labels `\"instance_id\"` and\n`\"zone\"` to identify particular VM instances.\n\nDifferent APIs can support different monitored resource types. APIs generally\nprovide a `list` method that returns the monitored resource descriptors used\nby the API."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "protobufNullValue": {
+      "type": "string",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`."
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of\n[google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\n[google.rpc.Status.details][google.rpc.Status.details] field, or localized\nby the client."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          },
+          "description": "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use."
+        }
+      },
+      "description": "The `Status` type defines a logical error model that is suitable for\ndifferent programming environments, including REST APIs and RPC APIs. It is\nused by [gRPC](https://github.com/grpc). Each `Status` message contains\nthree pieces of data: error code, error message, and error details.\n\nYou can find out more about this error model and how to work with it in the\n[API Design Guide](https://cloud.google.com/apis/design/errors)."
+    },
+    "typeHttpRequest": {
+      "type": "object",
+      "properties": {
+        "request_method": {
+          "type": "string",
+          "description": "The request method. Examples: `\"GET\"`, `\"HEAD\"`, `\"PUT\"`, `\"POST\"`."
+        },
+        "request_url": {
+          "type": "string",
+          "description": "The scheme (http, https), the host name, the path and the query\nportion of the URL that was requested.\nExample: `\"http://example.com/some/info?color=red\"`."
+        },
+        "request_size": {
+          "type": "string",
+          "format": "int64",
+          "description": "The size of the HTTP request message in bytes, including the request\nheaders and the request body."
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The response code indicating the status of response.\nExamples: 200, 404."
+        },
+        "response_size": {
+          "type": "string",
+          "format": "int64",
+          "description": "The size of the HTTP response message sent back to the client, in bytes,\nincluding the response headers and the response body."
+        },
+        "user_agent": {
+          "type": "string",
+          "description": "The user agent sent by the client. Example:\n`\"Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; Q312461; .NET\nCLR 1.0.3705)\"`."
+        },
+        "remote_ip": {
+          "type": "string",
+          "description": "The IP address (IPv4 or IPv6) of the client that issued the HTTP\nrequest. This field can include port information. Examples:\n`\"192.168.1.1\"`, `\"10.0.0.1:80\"`, `\"FE80::0202:B3FF:FE1E:8329\"`."
+        },
+        "server_ip": {
+          "type": "string",
+          "description": "The IP address (IPv4 or IPv6) of the origin server that the request was\nsent to. This field can include port information. Examples:\n`\"192.168.1.1\"`, `\"10.0.0.1:80\"`, `\"FE80::0202:B3FF:FE1E:8329\"`."
+        },
+        "referer": {
+          "type": "string",
+          "description": "The referer URL of the request, as defined in\n[HTTP/1.1 Header Field\nDefinitions](https://datatracker.ietf.org/doc/html/rfc2616#section-14.36)."
+        },
+        "latency": {
+          "type": "string",
+          "description": "The request processing latency on the server, from the time the request was\nreceived until the response was sent."
+        },
+        "cache_lookup": {
+          "type": "boolean",
+          "description": "Whether or not a cache lookup was attempted."
+        },
+        "cache_hit": {
+          "type": "boolean",
+          "description": "Whether or not an entity was served from cache\n(with or without validation)."
+        },
+        "cache_validated_with_origin_server": {
+          "type": "boolean",
+          "description": "Whether or not the response was validated with the origin server before\nbeing served from cache. This field is only meaningful if `cache_hit` is\nTrue."
+        },
+        "cache_fill_bytes": {
+          "type": "string",
+          "format": "int64",
+          "description": "The number of HTTP response bytes inserted into cache. Set only when a\ncache fill was attempted."
+        },
+        "protocol": {
+          "type": "string",
+          "title": "Protocol used for the request. Examples: \"HTTP/1.1\", \"HTTP/2\", \"websocket\""
+        }
+      },
+      "description": "A common proto for logging HTTP requests. Only contains semantics\ndefined by the HTTP specification. Product-specific logging\ninformation MUST be defined in a separate message."
+    },
+    "typeLogSeverity": {
+      "type": "string",
+      "enum": [
+        "DEBUG",
+        "INFO",
+        "NOTICE",
+        "WARNING",
+        "ERROR",
+        "CRITICAL",
+        "ALERT",
+        "EMERGENCY"
+      ],
+      "description": "The severity of the event described in a log entry, expressed as one of the\nstandard severity levels listed below.  For your reference, the levels are\nassigned the listed numeric values. The effect of using numeric values other\nthan those listed is undefined.\n\nYou can filter for log entries by severity.  For example, the following\nfilter expression will match log entries with severities `INFO`, `NOTICE`,\nand `WARNING`:\n\n    severity \u003e DEBUG AND severity \u003c= WARNING\n\nIf you are writing log entries, you should map other severity encodings to\none of these standard levels. For example, you might map all of Java's FINE,\nFINER, and FINEST levels to `LogSeverity.DEBUG`. You can preserve the\noriginal severity level in the log entry payload if you wish.\n\n - DEBUG: (100) Debug or trace information.\n - INFO: (200) Routine information, such as ongoing status or performance.\n - NOTICE: (300) Normal but significant events, such as start up, shut down, or\na configuration change.\n - WARNING: (400) Warning events might cause problems.\n - ERROR: (500) Error events are likely to cause problems.\n - CRITICAL: (600) Critical events cause more severe problems or outages.\n - ALERT: (700) A person must take an action immediately.\n - EMERGENCY: (800) One or more systems are unusable."
+    },
+    "v2ListLogEntriesRequest": {
+      "type": "object",
+      "properties": {
+        "resource_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nMay alternatively be one or more views:\n\n * `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n\nProjects listed in the `project_ids` field are added to this list.\nA maximum of 100 resources may be specified in a single request.",
+          "title": "Required. Names of one or more parent resources from which to\nretrieve log entries:"
+        },
+        "filter": {
+          "type": "string",
+          "description": "Optional. Only log entries that match the filter are returned.  An empty\nfilter matches all log entries in the resources listed in `resource_names`.\nReferencing a parent resource that is not listed in `resource_names` will\ncause the filter to return no results. The maximum length of a filter is\n20,000 characters."
+        },
+        "order_by": {
+          "type": "string",
+          "description": "Optional. How the results should be sorted.  Presently, the only permitted\nvalues are `\"timestamp asc\"` (default) and `\"timestamp desc\"`. The first\noption returns entries in order of increasing values of\n`LogEntry.timestamp` (oldest first), and the second option returns entries\nin order of decreasing timestamps (newest first).  Entries with equal\ntimestamps are returned in order of their `insert_id` values."
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Optional. The maximum number of results to return from this request.\nDefault is 50. If the value is negative or exceeds 1000, the request is\nrejected. The presence of `next_page_token` in the response indicates that\nmore results might be available."
+        },
+        "page_token": {
+          "type": "string",
+          "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method.  `page_token` must be the value of\n`next_page_token` from the previous response.  The values of other method\nparameters should be identical to those in the previous call."
+        }
+      },
+      "description": "The parameters to `ListLogEntries`.",
+      "required": [
+        "resource_names"
+      ]
+    },
+    "v2ListLogEntriesResponse": {
+      "type": "object",
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2LogEntry"
+          },
+          "description": "A list of log entries.  If `entries` is empty, `nextPageToken` may still be\nreturned, indicating that more entries may exist.  See `nextPageToken` for\nmore information."
+        },
+        "next_page_token": {
+          "type": "string",
+          "description": "If there might be more results than those appearing in this response, then\n`nextPageToken` is included.  To get the next set of results, call this\nmethod again using the value of `nextPageToken` as `pageToken`.\n\nIf a value for `next_page_token` appears and the `entries` field is empty,\nit means that the search found no log entries so far but it did not have\ntime to search all the possible log entries.  Retry the method with this\nvalue for `page_token` to continue the search.  Alternatively, consider\nspeeding up the search by changing your filter to specify a single log name\nor resource type, or to narrow the time range of the search."
+        }
+      },
+      "description": "Result returned from `ListLogEntries`."
+    },
+    "v2ListLogsResponse": {
+      "type": "object",
+      "properties": {
+        "log_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of log names. For example,\n`\"projects/my-project/logs/syslog\"` or\n`\"organizations/123/logs/cloudresourcemanager.googleapis.com%2Factivity\"`."
+        },
+        "next_page_token": {
+          "type": "string",
+          "description": "If there might be more results than those appearing in this response, then\n`nextPageToken` is included.  To get the next set of results, call this\nmethod again using the value of `nextPageToken` as `pageToken`."
+        }
+      },
+      "description": "Result returned from ListLogs."
+    },
+    "v2ListMonitoredResourceDescriptorsResponse": {
+      "type": "object",
+      "properties": {
+        "resource_descriptors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiMonitoredResourceDescriptor"
+          },
+          "description": "A list of resource descriptors."
+        },
+        "next_page_token": {
+          "type": "string",
+          "description": "If there might be more results than those appearing in this response, then\n`nextPageToken` is included.  To get the next set of results, call this\nmethod again using the value of `nextPageToken` as `pageToken`."
+        }
+      },
+      "description": "Result returned from ListMonitoredResourceDescriptors."
+    },
+    "v2LogEntry": {
+      "type": "object",
+      "properties": {
+        "log_name": {
+          "type": "string",
+          "description": "\"projects/[PROJECT_ID]/logs/[LOG_ID]\"\n    \"organizations/[ORGANIZATION_ID]/logs/[LOG_ID]\"\n    \"billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]\"\n    \"folders/[FOLDER_ID]/logs/[LOG_ID]\"\n\nA project number may be used in place of PROJECT_ID. The project number is\ntranslated to its corresponding PROJECT_ID internally and the `log_name`\nfield will contain PROJECT_ID in queries and exports.\n\n`[LOG_ID]` must be URL-encoded within `log_name`. Example:\n`\"organizations/1234567890/logs/cloudresourcemanager.googleapis.com%2Factivity\"`.\n\n`[LOG_ID]` must be less than 512 characters long and can only include the\nfollowing characters: upper and lower case alphanumeric characters,\nforward-slash, underscore, hyphen, and period.\n\nFor backward compatibility, if `log_name` begins with a forward-slash, such\nas `/projects/...`, then the log entry is ingested as usual, but the\nforward-slash is removed. Listing the log entry will not show the leading\nslash and filtering for a log name with a leading slash will never return\nany results.",
+          "title": "Required. The resource name of the log to which this log entry belongs:"
+        },
+        "resource": {
+          "$ref": "#/definitions/apiMonitoredResource",
+          "description": "Required. The monitored resource that produced this log entry.\n\nExample: a log entry that reports a database error would be associated with\nthe monitored resource designating the particular database that reported\nthe error."
+        },
+        "proto_payload": {
+          "$ref": "#/definitions/protobufAny",
+          "description": "The log entry payload, represented as a protocol buffer. Some Google\nCloud Platform services use this field for their log entry payloads.\n\nThe following protocol buffer types are supported; user-defined types\nare not supported:\n\n  \"type.googleapis.com/google.cloud.audit.AuditLog\"\n  \"type.googleapis.com/google.appengine.logging.v1.RequestLog\""
+        },
+        "text_payload": {
+          "type": "string",
+          "description": "The log entry payload, represented as a Unicode string (UTF-8)."
+        },
+        "json_payload": {
+          "type": "object",
+          "description": "The log entry payload, represented as a structure that is\nexpressed as a JSON object."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional. The time the event described by the log entry occurred. This time\nis used to compute the log entry's age and to enforce the logs retention\nperiod. If this field is omitted in a new log entry, then Logging assigns\nit the current time. Timestamps have nanosecond accuracy, but trailing\nzeros in the fractional seconds might be omitted when the timestamp is\ndisplayed.\n\nIncoming log entries must have timestamps that don't exceed the\n[logs retention\nperiod](https://cloud.google.com/logging/quotas#logs_retention_periods) in\nthe past, and that don't exceed 24 hours in the future. Log entries outside\nthose time boundaries aren't ingested by Logging."
+        },
+        "receive_timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Output only. The time the log entry was received by Logging.",
+          "readOnly": true
+        },
+        "severity": {
+          "$ref": "#/definitions/typeLogSeverity",
+          "description": "Optional. The severity of the log entry. The default value is\n`LogSeverity.DEFAULT`."
+        },
+        "insert_id": {
+          "type": "string",
+          "description": "Optional. A unique identifier for the log entry. If you provide a value,\nthen Logging considers other log entries in the same project, with the same\n`timestamp`, and with the same `insert_id` to be duplicates which are\nremoved in a single query result. However, there are no guarantees of\nde-duplication in the export of logs.\n\nIf the `insert_id` is omitted when writing a log entry, the Logging API\nassigns its own unique identifier in this field.\n\nIn queries, the `insert_id` is also used to order log entries that have\nthe same `log_name` and `timestamp` values."
+        },
+        "http_request": {
+          "$ref": "#/definitions/typeHttpRequest",
+          "description": "Optional. Information about the HTTP request associated with this log\nentry, if applicable."
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional. A map of key, value pairs that provides additional information\nabout the log entry. The labels can be user-defined or system-defined.\n\nUser-defined labels are arbitrary key, value pairs that you can use to\nclassify logs.\n\nSystem-defined labels are defined by GCP services for platform logs.\nThey have two components - a service namespace component and the\nattribute name. For example: `compute.googleapis.com/resource_name`.\n\nCloud Logging truncates label keys that exceed 512 B and label\nvalues that exceed 64 KB upon their associated log entry being\nwritten. The truncation is indicated by an ellipsis at the\nend of the character string."
+        },
+        "operation": {
+          "$ref": "#/definitions/v2LogEntryOperation",
+          "description": "Optional. Information about an operation associated with the log entry, if\napplicable."
+        },
+        "trace": {
+          "type": "string",
+          "description": "Optional. The REST resource name of the trace being written to\n[Cloud Trace](https://cloud.google.com/trace) in\nassociation with this log entry. For example, if your trace data is stored\nin the Cloud project \"my-trace-project\" and if the service that is creating\nthe log entry receives a trace header that includes the trace ID \"12345\",\nthen the service should use \"projects/my-tracing-project/traces/12345\".\n\nThe `trace` field provides the link between logs and traces. By using\nthis field, you can navigate from a log entry to a trace."
+        },
+        "span_id": {
+          "type": "string",
+          "description": "Optional. The ID of the [Cloud Trace](https://cloud.google.com/trace) span\nassociated with the current operation in which the log is being written.\nFor example, if a span has the REST resource name of\n\"projects/some-project/traces/some-trace/spans/some-span-id\", then the\n`span_id` field is \"some-span-id\".\n\nA\n[Span](https://cloud.google.com/trace/docs/reference/v2/rest/v2/projects.traces/batchWrite#Span)\nrepresents a single operation within a trace. Whereas a trace may involve\nmultiple different microservices running on multiple different machines,\na span generally corresponds to a single logical operation being performed\nin a single instance of a microservice on one specific machine. Spans\nare the nodes within the tree that is a trace.\n\nApplications that are [instrumented for\ntracing](https://cloud.google.com/trace/docs/setup) will generally assign a\nnew, unique span ID on each incoming request. It is also common to create\nand record additional spans corresponding to internal processing elements\nas well as issuing requests to dependencies.\n\nThe span ID is expected to be a 16-character, hexadecimal encoding of an\n8-byte array and should not be zero. It should be unique within the trace\nand should, ideally, be generated in a manner that is uniformly random.\n\nExample values:\n\n  - `000000000000004a`\n  - `7a2190356c3fc94b`\n  - `0000f00300090021`\n  - `d39223e101960076`"
+        },
+        "trace_sampled": {
+          "type": "boolean",
+          "description": "Optional. The sampling decision of the trace associated with the log entry.\n\nTrue means that the trace resource name in the `trace` field was sampled\nfor storage in a trace backend. False means that the trace was not sampled\nfor storage when this log entry was written, or the sampling decision was\nunknown at the time. A non-sampled `trace` value is still useful as a\nrequest correlation identifier. The default is False."
+        },
+        "source_location": {
+          "$ref": "#/definitions/v2LogEntrySourceLocation",
+          "description": "Optional. Source code location information associated with the log entry,\nif any."
+        },
+        "split": {
+          "$ref": "#/definitions/v2LogSplit",
+          "description": "Optional. Information indicating this LogEntry is part of a sequence of\nmultiple log entries split from a single LogEntry."
+        }
+      },
+      "description": "An individual entry in a log.",
+      "required": [
+        "log_name",
+        "resource"
+      ]
+    },
+    "v2LogEntryOperation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Optional. An arbitrary operation identifier. Log entries with the same\nidentifier are assumed to be part of the same operation."
+        },
+        "producer": {
+          "type": "string",
+          "description": "Optional. An arbitrary producer identifier. The combination of `id` and\n`producer` must be globally unique. Examples for `producer`:\n`\"MyDivision.MyBigCompany.com\"`, `\"github.com/MyProject/MyApplication\"`."
+        },
+        "first": {
+          "type": "boolean",
+          "description": "Optional. Set this to True if this is the first log entry in the operation."
+        },
+        "last": {
+          "type": "boolean",
+          "description": "Optional. Set this to True if this is the last log entry in the operation."
+        }
+      },
+      "description": "Additional information about a potentially long-running operation with which\na log entry is associated."
+    },
+    "v2LogEntrySourceLocation": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "Optional. Source file name. Depending on the runtime environment, this\nmight be a simple name or a fully-qualified name."
+        },
+        "line": {
+          "type": "string",
+          "format": "int64",
+          "description": "Optional. Line within the source file. 1-based; 0 indicates no line number\navailable."
+        },
+        "function": {
+          "type": "string",
+          "description": "Optional. Human-readable name of the function or method being invoked, with\noptional context such as the class or package name. This information may be\nused in contexts such as the logs viewer, where a file and line number are\nless meaningful. The format can vary by language. For example:\n`qual.if.ied.Class.method` (Java), `dir/package.func` (Go), `function`\n(Python)."
+        }
+      },
+      "description": "Additional information about the source code location that produced the log\nentry."
+    },
+    "v2LogSplit": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "A globally unique identifier for all log entries in a sequence of split log\nentries. All log entries with the same |LogSplit.uid| are assumed to be\npart of the same sequence of split log entries."
+        },
+        "index": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The index of this LogEntry in the sequence of split log entries. Log\nentries are given |index| values 0, 1, ..., n-1 for a sequence of n log\nentries."
+        },
+        "total_splits": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of log entries that the original LogEntry was split into."
+        }
+      },
+      "description": "Additional information used to correlate multiple log entries. Used when a\nsingle LogEntry would exceed the Google Cloud Logging size limit and is\nsplit across multiple log entries."
+    },
+    "v2TailLogEntriesRequest": {
+      "type": "object",
+      "properties": {
+        "resource_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "*  `projects/[PROJECT_ID]`\n*  `organizations/[ORGANIZATION_ID]`\n*  `billingAccounts/[BILLING_ACCOUNT_ID]`\n*  `folders/[FOLDER_ID]`\n\nMay alternatively be one or more views:\n\n * `projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`\n * `folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]`",
+          "title": "Required. Name of a parent resource from which to retrieve log entries:"
+        },
+        "filter": {
+          "type": "string",
+          "description": "Optional. Only log entries that match the filter are returned.  An empty\nfilter matches all log entries in the resources listed in `resource_names`.\nReferencing a parent resource that is not listed in `resource_names` will\ncause the filter to return no results. The maximum length of a filter is\n20,000 characters."
+        },
+        "buffer_window": {
+          "type": "string",
+          "description": "Optional. The amount of time to buffer log entries at the server before\nbeing returned to prevent out of order results due to late arriving log\nentries. Valid values are between 0-60000 milliseconds. Defaults to 2000\nmilliseconds."
+        }
+      },
+      "description": "The parameters to `TailLogEntries`.",
+      "required": [
+        "resource_names"
+      ]
+    },
+    "v2TailLogEntriesResponse": {
+      "type": "object",
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2LogEntry"
+          },
+          "description": "A list of log entries. Each response in the stream will order entries with\nincreasing values of `LogEntry.timestamp`. Ordering is not guaranteed\nbetween separate responses."
+        },
+        "suppression_info": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/TailLogEntriesResponseSuppressionInfo"
+          },
+          "description": "If entries that otherwise would have been included in the session were not\nsent back to the client, counts of relevant entries omitted from the\nsession with the reason that they were not included. There will be at most\none of each reason per response. The counts represent the number of\nsuppressed entries since the last streamed response."
+        }
+      },
+      "description": "Result returned from `TailLogEntries`."
+    },
+    "v2WriteLogEntriesRequest": {
+      "type": "object",
+      "properties": {
+        "log_name": {
+          "type": "string",
+          "description": "* `projects/[PROJECT_ID]/logs/[LOG_ID]`\n* `organizations/[ORGANIZATION_ID]/logs/[LOG_ID]`\n* `billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]`\n* `folders/[FOLDER_ID]/logs/[LOG_ID]`\n\n`[LOG_ID]` must be URL-encoded. For example:\n\n    \"projects/my-project-id/logs/syslog\"\n    \"organizations/123/logs/cloudaudit.googleapis.com%2Factivity\"\n\nThe permission `logging.logEntries.create` is needed on each project,\norganization, billing account, or folder that is receiving new log\nentries, whether the resource is specified in `logName` or in an\nindividual log entry.",
+          "title": "Optional. A default log resource name that is assigned to all log entries\nin `entries` that do not specify a value for `log_name`:"
+        },
+        "resource": {
+          "$ref": "#/definitions/apiMonitoredResource",
+          "description": "{ \"type\": \"gce_instance\",\n      \"labels\": {\n        \"zone\": \"us-central1-a\", \"instance_id\": \"00000000000000000000\" }}\n\nSee [LogEntry][google.logging.v2.LogEntry].",
+          "title": "Optional. A default monitored resource object that is assigned to all log\nentries in `entries` that do not specify a value for `resource`. Example:"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional. Default labels that are added to the `labels` field of all log\nentries in `entries`. If a log entry already has a label with the same key\nas a label in this parameter, then the log entry's label is not changed.\nSee [LogEntry][google.logging.v2.LogEntry]."
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2LogEntry"
+          },
+          "description": "Required. The log entries to send to Logging. The order of log\nentries in this list does not matter. Values supplied in this method's\n`log_name`, `resource`, and `labels` fields are copied into those log\nentries in this list that do not include values for their corresponding\nfields. For more information, see the\n[LogEntry][google.logging.v2.LogEntry] type.\n\nIf the `timestamp` or `insert_id` fields are missing in log entries, then\nthis method supplies the current time or a unique identifier, respectively.\nThe supplied values are chosen so that, among the log entries that did not\nsupply their own values, the entries earlier in the list will sort before\nthe entries later in the list. See the `entries.list` method.\n\nLog entries with timestamps that are more than the\n[logs retention period](https://cloud.google.com/logging/quotas) in\nthe past or more than 24 hours in the future will not be available when\ncalling `entries.list`. However, those log entries can still be [exported\nwith\nLogSinks](https://cloud.google.com/logging/docs/api/tasks/exporting-logs).\n\nTo improve throughput and to avoid exceeding the\n[quota limit](https://cloud.google.com/logging/quotas) for calls to\n`entries.write`, you should try to include several log entries in this\nlist, rather than calling this method for each individual log entry."
+        },
+        "partial_success": {
+          "type": "boolean",
+          "description": "Optional. Whether a batch's valid entries should be written even if some\nother entry failed due to a permanent error such as INVALID_ARGUMENT or\nPERMISSION_DENIED. If any entry failed, then the response status is the\nresponse status of one of the failed entries. The response will include\nerror details in `WriteLogEntriesPartialErrors.log_entry_errors` keyed by\nthe entries' zero-based index in the `entries`. Failed requests for which\nno entries are written will not include per-entry errors."
+        },
+        "dry_run": {
+          "type": "boolean",
+          "description": "Optional. If true, the request should expect normal response, but the\nentries won't be persisted nor exported. Useful for checking whether the\nlogging API endpoints are working properly before sending valuable data."
+        }
+      },
+      "description": "The parameters to WriteLogEntries.",
+      "required": [
+        "entries"
+      ]
+    },
+    "v2WriteLogEntriesResponse": {
+      "type": "object",
+      "description": "Result returned from WriteLogEntries."
+    }
+  }
+}

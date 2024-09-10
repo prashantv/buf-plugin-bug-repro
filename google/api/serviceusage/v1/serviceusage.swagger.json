@@ -1,0 +1,1110 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "google/api/serviceusage/v1/serviceusage.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ServiceUsage"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/{name}": {
+      "get": {
+        "summary": "Returns the service configuration and enabled state for a given service.",
+        "operationId": "GetService",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Service"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Name of the consumer and service to get the `ConsumerState` for.\n\nAn example name would be:\n`projects/123/services/serviceusage.googleapis.com` where `123` is the\nproject number.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "[^/]+/[^/]+/services/[^/]+"
+          }
+        ],
+        "tags": [
+          "ServiceUsage"
+        ]
+      }
+    },
+    "/v1/{name}:disable": {
+      "post": {
+        "summary": "Disable a service so that it can no longer be used with a project.\nThis prevents unintended usage that may cause unexpected billing\ncharges or security leaks.",
+        "description": "It is not valid to call the disable method on a service that is not\ncurrently enabled. Callers will receive a `FAILED_PRECONDITION` status if\nthe target service is not currently enabled.",
+        "operationId": "DisableService",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/longrunningOperation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Name of the consumer and service to disable the service on.\n\nThe enable and disable methods currently only support projects.\n\nAn example name would be:\n`projects/123/services/serviceusage.googleapis.com` where `123` is the\nproject number.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "[^/]+/[^/]+/services/[^/]+"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceUsageDisableServiceBody"
+            }
+          }
+        ],
+        "tags": [
+          "ServiceUsage"
+        ]
+      }
+    },
+    "/v1/{name}:enable": {
+      "post": {
+        "summary": "Enable a service so that it can be used with a project.",
+        "operationId": "EnableService",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/longrunningOperation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Name of the consumer and service to enable the service on.\n\nThe `EnableService` and `DisableService` methods currently only support\nprojects.\n\nEnabling a service requires that the service is public or is shared with\nthe user enabling the service.\n\nAn example name would be:\n`projects/123/services/serviceusage.googleapis.com` where `123` is the\nproject number.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "[^/]+/[^/]+/services/[^/]+"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceUsageEnableServiceBody"
+            }
+          }
+        ],
+        "tags": [
+          "ServiceUsage"
+        ]
+      }
+    },
+    "/v1/{parent}/services": {
+      "get": {
+        "summary": "List all services available to the specified project, and the current\nstate of those services with respect to the project. The list includes\nall public services, all services for which the calling user has the\n`servicemanagement.services.bind` permission, and all services that have\nalready been enabled on the project. The list can be filtered to\nonly include services in a specific state, for example to only include\nservices enabled on the project.",
+        "description": "WARNING: If you need to query enabled services frequently or across\nan organization, you should use\n[Cloud Asset Inventory\nAPI](https://cloud.google.com/asset-inventory/docs/apis), which provides\nhigher throughput and richer filtering capability.",
+        "operationId": "ListServices",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListServicesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Parent to search for services on.\n\nAn example name would be:\n`projects/123` where `123` is the project number.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "[^/]+/[^/]+"
+          },
+          {
+            "name": "page_size",
+            "description": "Requested size of the next page of data.\nRequested page size cannot exceed 200.\nIf not set, the default page size is 50.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Token identifying which result to start with, which is returned by a\nprevious list call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "description": "Only list services that conform to the given filter.\nThe allowed filter strings are `state:ENABLED` and `state:DISABLED`.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ServiceUsage"
+        ]
+      }
+    },
+    "/v1/{parent}/services:batchEnable": {
+      "post": {
+        "summary": "Enable multiple services on a project. The operation is atomic: if enabling\nany service fails, then the entire batch fails, and no state changes occur.\nTo enable a single service, use the `EnableService` method instead.",
+        "operationId": "BatchEnableServices",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/longrunningOperation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Parent to enable services on.\n\nAn example name would be:\n`projects/123` where `123` is the project number.\n\nThe `BatchEnableServices` method currently only supports projects.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "[^/]+/[^/]+"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceUsageBatchEnableServicesBody"
+            }
+          }
+        ],
+        "tags": [
+          "ServiceUsage"
+        ]
+      }
+    },
+    "/v1/{parent}/services:batchGet": {
+      "get": {
+        "summary": "Returns the service configurations and enabled states for a given list of\nservices.",
+        "operationId": "BatchGetServices",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1BatchGetServicesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Parent to retrieve services from.\nIf this is set, the parent of all of the services specified in `names` must\nmatch this field. An example name would be: `projects/123` where `123` is\nthe project number. The `BatchGetServices` method currently only supports\nprojects.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "[^/]+/[^/]+"
+          },
+          {
+            "name": "names",
+            "description": "Names of the services to retrieve.\n\nAn example name would be:\n`projects/123/services/serviceusage.googleapis.com` where `123` is the\nproject number.\nA single request can get a maximum of 30 services at a time.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "ServiceUsage"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "DisableServiceRequestCheckIfServiceHasUsage": {
+      "type": "string",
+      "enum": [
+        "SKIP",
+        "CHECK"
+      ],
+      "description": "Enum to determine if service usage should be checked when disabling a\nservice.\n\n - SKIP: If set, skip checking service usage when disabling a service.\n - CHECK: If set, service usage is checked when disabling the service. If a\nservice, or its dependents, has usage in the last 30 days, the request\nreturns a FAILED_PRECONDITION error."
+    },
+    "LabelDescriptorValueType": {
+      "type": "string",
+      "enum": [
+        "BOOL",
+        "INT64"
+      ],
+      "description": "Value types that can be used as label values.\n\n - BOOL: Boolean; true or false.\n - INT64: A 64-bit signed integer."
+    },
+    "MonitoringMonitoringDestination": {
+      "type": "object",
+      "properties": {
+        "monitored_resource": {
+          "type": "string",
+          "description": "The monitored resource type. The type must be defined in\n[Service.monitored_resources][google.api.Service.monitored_resources]\nsection."
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Types of the metrics to report to this monitoring destination.\nEach type must be defined in\n[Service.metrics][google.api.Service.metrics] section."
+        }
+      },
+      "description": "Configuration of a specific monitoring destination (the producer project\nor the consumer project)."
+    },
+    "ServiceUsageBatchEnableServicesBody": {
+      "type": "object",
+      "properties": {
+        "service_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The identifiers of the services to enable on the project.\n\nA valid identifier would be:\nserviceusage.googleapis.com\n\nEnabling services requires that each service is public or is shared with\nthe user enabling the service.\n\nA single request can enable a maximum of 20 services at a time. If more\nthan 20 services are specified, the request will fail, and no state changes\nwill occur."
+        }
+      },
+      "description": "Request message for the `BatchEnableServices` method."
+    },
+    "ServiceUsageDisableServiceBody": {
+      "type": "object",
+      "properties": {
+        "disable_dependent_services": {
+          "type": "boolean",
+          "description": "Indicates if services that are enabled and which depend on this service\nshould also be disabled. If not set, an error will be generated if any\nenabled services depend on the service to be disabled. When set, the\nservice, and any enabled services that depend on it, will be disabled\ntogether."
+        },
+        "check_if_service_has_usage": {
+          "$ref": "#/definitions/DisableServiceRequestCheckIfServiceHasUsage",
+          "description": "Defines the behavior for checking service usage when disabling a service."
+        }
+      },
+      "description": "Request message for the `DisableService` method."
+    },
+    "ServiceUsageEnableServiceBody": {
+      "type": "object",
+      "description": "Request message for the `EnableService` method."
+    },
+    "apiAuthProvider": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the auth provider. It will be referred to by\n`AuthRequirement.provider_id`.\n\nExample: \"bookstore_auth\"."
+        },
+        "issuer": {
+          "type": "string",
+          "description": "Identifies the principal that issued the JWT. See\nhttps://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.1\nUsually a URL or an email address.\n\nExample: https://securetoken.google.com\nExample: 1234567-compute@developer.gserviceaccount.com"
+        },
+        "jwks_uri": {
+          "type": "string",
+          "description": "URL of the provider's public key set to validate signature of the JWT. See\n[OpenID\nDiscovery](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata).\nOptional if the key set document:\n - can be retrieved from\n   [OpenID\n   Discovery](https://openid.net/specs/openid-connect-discovery-1_0.html)\n   of the issuer.\n - can be inferred from the email domain of the issuer (e.g. a Google\n service account).\n\nExample: https://www.googleapis.com/oauth2/v1/certs"
+        },
+        "audiences": {
+          "type": "string",
+          "description": "Example:\n\n    audiences: bookstore_android.apps.googleusercontent.com,\n               bookstore_web.apps.googleusercontent.com",
+          "title": "The list of JWT\n[audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3).\nthat are allowed to access. A JWT containing any of these audiences will\nbe accepted. When this setting is absent, JWTs with audiences:\n  - \"https://[service.name]/[google.protobuf.Api.name]\"\n  - \"https://[service.name]/\"\nwill be accepted.\nFor example, if no audiences are in the setting, LibraryService API will\naccept JWTs with the following audiences:\n  -\n  https://library-example.googleapis.com/google.example.library.v1.LibraryService\n  - https://library-example.googleapis.com/"
+        },
+        "authorization_url": {
+          "type": "string",
+          "description": "Redirect URL if JWT token is required but not present or is expired.\nImplement authorizationUrl of securityDefinitions in OpenAPI spec."
+        },
+        "jwt_locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiJwtLocation"
+          },
+          "description": "JWT locations can be one of HTTP headers, URL query parameters or\ncookies. The rule is that the first match wins.\n\nIf not specified,  default to use following 3 locations:\n   1) Authorization: Bearer\n   2) x-goog-iap-jwt-assertion\n   3) access_token query parameter\n\nDefault locations can be specified as followings:\n   jwt_locations:\n   - header: Authorization\n     value_prefix: \"Bearer \"\n   - header: x-goog-iap-jwt-assertion\n   - query: access_token",
+          "title": "Defines the locations to extract the JWT.  For now it is only used by the\nCloud Endpoints to store the OpenAPI extension [x-google-jwt-locations]\n(https://cloud.google.com/endpoints/docs/openapi/openapi-extensions#x-google-jwt-locations)"
+        }
+      },
+      "description": "Configuration for an authentication provider, including support for\n[JSON Web Token\n(JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32)."
+    },
+    "apiAuthRequirement": {
+      "type": "object",
+      "properties": {
+        "provider_id": {
+          "type": "string",
+          "description": "[id][google.api.AuthProvider.id] from authentication provider.\n\nExample:\n\n    provider_id: bookstore_auth"
+        },
+        "audiences": {
+          "type": "string",
+          "description": "NOTE: This will be deprecated soon, once AuthProvider.audiences is\nimplemented and accepted in all the runtime components.\n\nThe list of JWT\n[audiences](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.3).\nthat are allowed to access. A JWT containing any of these audiences will\nbe accepted. When this setting is absent, only JWTs with audience\n\"https://[Service_name][google.api.Service.name]/[API_name][google.protobuf.Api.name]\"\nwill be accepted. For example, if no audiences are in the setting,\nLibraryService API will only accept JWTs with the following audience\n\"https://library-example.googleapis.com/google.example.library.v1.LibraryService\".\n\nExample:\n\n    audiences: bookstore_android.apps.googleusercontent.com,\n               bookstore_web.apps.googleusercontent.com"
+        }
+      },
+      "description": "User-defined authentication requirements, including support for\n[JSON Web Token\n(JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32)."
+    },
+    "apiAuthentication": {
+      "type": "object",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiAuthenticationRule"
+          },
+          "description": "A list of authentication rules that apply to individual API methods.\n\n**NOTE:** All service configuration rules follow \"last one wins\" order."
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiAuthProvider"
+          },
+          "description": "Defines a set of authentication providers that a service supports."
+        }
+      },
+      "description": "`Authentication` defines the authentication configuration for API methods\nprovided by an API service.\n\nExample:\n\n    name: calendar.googleapis.com\n    authentication:\n      providers:\n      - id: google_calendar_auth\n        jwks_uri: https://www.googleapis.com/oauth2/v1/certs\n        issuer: https://securetoken.google.com\n      rules:\n      - selector: \"*\"\n        requirements:\n          provider_id: google_calendar_auth\n      - selector: google.calendar.Delegate\n        oauth:\n          canonical_scopes: https://www.googleapis.com/auth/calendar.read"
+    },
+    "apiAuthenticationRule": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string",
+          "description": "Selects the methods to which this rule applies.\n\nRefer to [selector][google.api.DocumentationRule.selector] for syntax\ndetails."
+        },
+        "oauth": {
+          "$ref": "#/definitions/apiOAuthRequirements",
+          "description": "The requirements for OAuth credentials."
+        },
+        "allow_without_credential": {
+          "type": "boolean",
+          "description": "If true, the service accepts API keys without any other credential.\nThis flag only applies to HTTP and gRPC requests."
+        },
+        "requirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiAuthRequirement"
+          },
+          "description": "Requirements for additional authentication providers."
+        }
+      },
+      "description": "Authentication rules for the service.\n\nBy default, if a method has any authentication requirements, every request\nmust include a valid credential matching one of the requirements.\nIt's an error to include more than one kind of credential in a single\nrequest.\n\nIf a method doesn't have any auth requirements, request credentials will be\nignored."
+    },
+    "apiDocumentation": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "A short description of what the service does. The summary must be plain\ntext. It becomes the overview of the service displayed in Google Cloud\nConsole.\nNOTE: This field is equivalent to the standard field `description`."
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiPage"
+          },
+          "description": "The top level pages for the documentation set."
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiDocumentationRule"
+          },
+          "description": "A list of documentation rules that apply to individual API elements.\n\n**NOTE:** All service configuration rules follow \"last one wins\" order."
+        },
+        "documentation_root_url": {
+          "type": "string",
+          "description": "The URL to the root of documentation."
+        },
+        "service_root_url": {
+          "type": "string",
+          "description": "Specifies the service root url if the default one (the service name\nfrom the yaml file) is not suitable. This can be seen in any fully\nspecified service urls as well as sections that show a base that other\nurls are relative to."
+        },
+        "overview": {
+          "type": "string",
+          "description": "Declares a single overview page. For example:\n\u003cpre\u003e\u003ccode\u003edocumentation:\n  summary: ...\n  overview: \u0026#40;== include overview.md ==\u0026#41;\n\u003c/code\u003e\u003c/pre\u003e\nThis is a shortcut for the following declaration (using pages style):\n\u003cpre\u003e\u003ccode\u003edocumentation:\n  summary: ...\n  pages:\n  - name: Overview\n    content: \u0026#40;== include overview.md ==\u0026#41;\n\u003c/code\u003e\u003c/pre\u003e\nNote: you cannot specify both `overview` field and `pages` field."
+        }
+      },
+      "description": "`Documentation` provides the information for describing a service.\n\nExample:\n\u003cpre\u003e\u003ccode\u003edocumentation:\n  summary: \u003e\n    The Google Calendar API gives access\n    to most calendar features.\n  pages:\n  - name: Overview\n    content: \u0026#40;== include google/foo/overview.md ==\u0026#41;\n  - name: Tutorial\n    content: \u0026#40;== include google/foo/tutorial.md ==\u0026#41;\n    subpages:\n    - name: Java\n      content: \u0026#40;== include google/foo/tutorial_java.md ==\u0026#41;\n  rules:\n  - selector: google.calendar.Calendar.Get\n    description: \u003e\n      ...\n  - selector: google.calendar.Calendar.Put\n    description: \u003e\n      ...\n\u003c/code\u003e\u003c/pre\u003e\nDocumentation is provided in markdown syntax. In addition to\nstandard markdown features, definition lists, tables and fenced\ncode blocks are supported. Section headers can be provided and are\ninterpreted relative to the section nesting of the context where\na documentation fragment is embedded.\n\nDocumentation from the IDL is merged with documentation defined\nvia the config at normalization time, where documentation provided\nby config rules overrides IDL provided.\n\nA number of constructs specific to the API platform are supported\nin documentation text.\n\nIn order to reference a proto element, the following\nnotation can be used:\n\u003cpre\u003e\u003ccode\u003e\u0026#91;fully.qualified.proto.name]\u0026#91;]\u003c/code\u003e\u003c/pre\u003e\nTo override the display text used for the link, this can be used:\n\u003cpre\u003e\u003ccode\u003e\u0026#91;display text]\u0026#91;fully.qualified.proto.name]\u003c/code\u003e\u003c/pre\u003e\nText can be excluded from doc using the following notation:\n\u003cpre\u003e\u003ccode\u003e\u0026#40;-- internal comment --\u0026#41;\u003c/code\u003e\u003c/pre\u003e\n\nA few directives are available in documentation. Note that\ndirectives must appear on a single line to be properly\nidentified. The `include` directive includes a markdown file from\nan external source:\n\u003cpre\u003e\u003ccode\u003e\u0026#40;== include path/to/file ==\u0026#41;\u003c/code\u003e\u003c/pre\u003e\nThe `resource_for` directive marks a message to be the resource of\na collection in REST view. If it is not specified, tools attempt\nto infer the resource from the operations in a collection:\n\u003cpre\u003e\u003ccode\u003e\u0026#40;== resource_for v1.shelves.books ==\u0026#41;\u003c/code\u003e\u003c/pre\u003e\nThe directive `suppress_warning` does not directly affect documentation\nand is documented together with service config validation."
+    },
+    "apiDocumentationRule": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string",
+          "description": "The selector is a comma-separated list of patterns for any element such as\na method, a field, an enum value. Each pattern is a qualified name of the\nelement which may end in \"*\", indicating a wildcard. Wildcards are only\nallowed at the end and for a whole component of the qualified name,\ni.e. \"foo.*\" is ok, but not \"foo.b*\" or \"foo.*.bar\". A wildcard will match\none or more components. To specify a default for all applicable elements,\nthe whole pattern \"*\" is used."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the selected proto element (e.g. a message, a method, a\n'service' definition, or a field). Defaults to leading \u0026 trailing comments\ntaken from the proto source definition of the proto element."
+        },
+        "deprecation_description": {
+          "type": "string",
+          "description": "Deprecation description of the selected element(s). It can be provided if\nan element is marked as `deprecated`."
+        }
+      },
+      "description": "A documentation rule provides information about individual API elements."
+    },
+    "apiEndpoint": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The canonical name of this endpoint."
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unimplemented. Dot not use.\n\nDEPRECATED: This field is no longer supported. Instead of using aliases,\nplease specify multiple [google.api.Endpoint][google.api.Endpoint] for each\nof the intended aliases.\n\nAdditional names that this endpoint will be hosted on."
+        },
+        "target": {
+          "type": "string",
+          "description": "The specification of an Internet routable address of API frontend that will\nhandle requests to this [API\nEndpoint](https://cloud.google.com/apis/design/glossary). It should be\neither a valid IPv4 address or a fully-qualified domain name. For example,\n\"8.8.8.8\" or \"myservice.appspot.com\"."
+        },
+        "allow_cors": {
+          "type": "boolean",
+          "description": "Allowing\n[CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing), aka\ncross-domain traffic, would allow the backends served from this endpoint to\nreceive and respond to HTTP OPTIONS requests. The response will be used by\nthe browser to determine whether the subsequent cross-origin request is\nallowed to proceed."
+        }
+      },
+      "description": "`Endpoint` describes a network address of a service that serves a set of\nAPIs. It is commonly known as a service endpoint. A service may expose\nany number of service endpoints, and all service endpoints share the same\nservice definition, such as quota limits and monitoring metrics.\n\nExample:\n\n    type: google.api.Service\n    name: library-example.googleapis.com\n    endpoints:\n      # Declares network address `https://library-example.googleapis.com`\n      # for service `library-example.googleapis.com`. The `https` scheme\n      # is implicit for all service endpoints. Other schemes may be\n      # supported in the future.\n    - name: library-example.googleapis.com\n      allow_cors: false\n    - name: content-staging-library-example.googleapis.com\n      # Allows HTTP OPTIONS calls to be passed to the API frontend, for it\n      # to decide whether the subsequent cross-origin request is allowed\n      # to proceed.\n      allow_cors: true"
+    },
+    "apiJwtLocation": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "string",
+          "description": "Specifies HTTP header name to extract JWT token."
+        },
+        "query": {
+          "type": "string",
+          "description": "Specifies URL query parameter name to extract JWT token."
+        },
+        "cookie": {
+          "type": "string",
+          "description": "Specifies cookie name to extract JWT token."
+        },
+        "value_prefix": {
+          "type": "string",
+          "description": "The value prefix. The value format is \"value_prefix{token}\"\nOnly applies to \"in\" header type. Must be empty for \"in\" query type.\nIf not empty, the header value has to match (case sensitive) this prefix.\nIf not matched, JWT will not be extracted. If matched, JWT will be\nextracted after the prefix is removed.\n\nFor example, for \"Authorization: Bearer {JWT}\",\nvalue_prefix=\"Bearer \" with a space at the end."
+        }
+      },
+      "description": "Specifies a location to extract JWT from an API request."
+    },
+    "apiLabelDescriptor": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The label key."
+        },
+        "value_type": {
+          "$ref": "#/definitions/LabelDescriptorValueType",
+          "description": "The type of data that can be assigned to the label."
+        },
+        "description": {
+          "type": "string",
+          "description": "A human-readable description for the label."
+        }
+      },
+      "description": "A description of a label."
+    },
+    "apiLaunchStage": {
+      "type": "string",
+      "enum": [
+        "UNIMPLEMENTED",
+        "PRELAUNCH",
+        "EARLY_ACCESS",
+        "ALPHA",
+        "BETA",
+        "GA",
+        "DEPRECATED"
+      ],
+      "description": "The launch stage as defined by [Google Cloud Platform\nLaunch Stages](https://cloud.google.com/terms/launch-stages).\n\n - UNIMPLEMENTED: The feature is not yet implemented. Users can not use it.\n - PRELAUNCH: Prelaunch features are hidden from users and are only visible internally.\n - EARLY_ACCESS: Early Access features are limited to a closed group of testers. To use\nthese features, you must sign up in advance and sign a Trusted Tester\nagreement (which includes confidentiality provisions). These features may\nbe unstable, changed in backward-incompatible ways, and are not\nguaranteed to be released.\n - ALPHA: Alpha is a limited availability test for releases before they are cleared\nfor widespread use. By Alpha, all significant design issues are resolved\nand we are in the process of verifying functionality. Alpha customers\nneed to apply for access, agree to applicable terms, and have their\nprojects allowlisted. Alpha releases don't have to be feature complete,\nno SLAs are provided, and there are no technical support obligations, but\nthey will be far enough along that customers can actually use them in\ntest environments or for limited-use tests -- just like they would in\nnormal production cases.\n - BETA: Beta is the point at which we are ready to open a release for any\ncustomer to use. There are no SLA or technical support obligations in a\nBeta release. Products will be complete from a feature perspective, but\nmay have some open outstanding issues. Beta releases are suitable for\nlimited production use cases.\n - GA: GA features are open to all developers and are considered stable and\nfully qualified for production use.\n - DEPRECATED: Deprecated features are scheduled to be shut down and removed. For more\ninformation, see the \"Deprecation Policy\" section of our [Terms of\nService](https://cloud.google.com/terms/)\nand the [Google Cloud Platform Subject to the Deprecation\nPolicy](https://cloud.google.com/terms/deprecation) documentation."
+    },
+    "apiMetricRule": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string",
+          "description": "Selects the methods to which this rule applies.\n\nRefer to [selector][google.api.DocumentationRule.selector] for syntax\ndetails."
+        },
+        "metric_costs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "format": "int64"
+          },
+          "description": "Metrics to update when the selected methods are called, and the associated\ncost applied to each metric.\n\nThe key of the map is the metric name, and the values are the amount\nincreased for the metric against which the quota limits are defined.\nThe value must not be negative."
+        }
+      },
+      "description": "Bind API methods to metrics. Binding a method to a metric causes that\nmetric's configured quota behaviors to apply to the method call."
+    },
+    "apiMonitoredResourceDescriptor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Optional. The resource name of the monitored resource descriptor:\n`\"projects/{project_id}/monitoredResourceDescriptors/{type}\"` where\n{type} is the value of the `type` field in this object and\n{project_id} is a project ID that provides API-specific context for\naccessing the type.  APIs that do not use project information can use the\nresource name format `\"monitoredResourceDescriptors/{type}\"`."
+        },
+        "type": {
+          "type": "string",
+          "description": "Required. The monitored resource type. For example, the type\n`\"cloudsql_database\"` represents databases in Google Cloud SQL.\n For a list of types, see [Monitored resource\n types](https://cloud.google.com/monitoring/api/resources)\nand [Logging resource\ntypes](https://cloud.google.com/logging/docs/api/v2/resource-list)."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Optional. A concise name for the monitored resource type that might be\ndisplayed in user interfaces. It should be a Title Cased Noun Phrase,\nwithout any article or other determiners. For example,\n`\"Google Cloud SQL Database\"`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. A detailed description of the monitored resource type that might\nbe used in documentation."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiLabelDescriptor"
+          },
+          "description": "Required. A set of labels used to describe instances of this monitored\nresource type. For example, an individual Google Cloud SQL database is\nidentified by values for the labels `\"database_id\"` and `\"zone\"`."
+        },
+        "launch_stage": {
+          "$ref": "#/definitions/apiLaunchStage",
+          "description": "Optional. The launch stage of the monitored resource definition."
+        }
+      },
+      "description": "An object that describes the schema of a\n[MonitoredResource][google.api.MonitoredResource] object using a type name\nand a set of labels.  For example, the monitored resource descriptor for\nGoogle Compute Engine VM instances has a type of\n`\"gce_instance\"` and specifies the use of the labels `\"instance_id\"` and\n`\"zone\"` to identify particular VM instances.\n\nDifferent APIs can support different monitored resource types. APIs generally\nprovide a `list` method that returns the monitored resource descriptors used\nby the API."
+    },
+    "apiMonitoring": {
+      "type": "object",
+      "properties": {
+        "producer_destinations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/MonitoringMonitoringDestination"
+          },
+          "description": "Monitoring configurations for sending metrics to the producer project.\nThere can be multiple producer destinations. A monitored resource type may\nappear in multiple monitoring destinations if different aggregations are\nneeded for different sets of metrics associated with that monitored\nresource type. A monitored resource and metric pair may only be used once\nin the Monitoring configuration."
+        },
+        "consumer_destinations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/MonitoringMonitoringDestination"
+          },
+          "description": "Monitoring configurations for sending metrics to the consumer project.\nThere can be multiple consumer destinations. A monitored resource type may\nappear in multiple monitoring destinations if different aggregations are\nneeded for different sets of metrics associated with that monitored\nresource type. A monitored resource and metric pair may only be used once\nin the Monitoring configuration."
+        }
+      },
+      "description": "Monitoring configuration of the service.\n\nThe example below shows how to configure monitored resources and metrics\nfor monitoring. In the example, a monitored resource and two metrics are\ndefined. The `library.googleapis.com/book/returned_count` metric is sent\nto both producer and consumer projects, whereas the\n`library.googleapis.com/book/num_overdue` metric is only sent to the\nconsumer project.\n\n    monitored_resources:\n    - type: library.googleapis.com/Branch\n      display_name: \"Library Branch\"\n      description: \"A branch of a library.\"\n      launch_stage: GA\n      labels:\n      - key: resource_container\n        description: \"The Cloud container (ie. project id) for the Branch.\"\n      - key: location\n        description: \"The location of the library branch.\"\n      - key: branch_id\n        description: \"The id of the branch.\"\n    metrics:\n    - name: library.googleapis.com/book/returned_count\n      display_name: \"Books Returned\"\n      description: \"The count of books that have been returned.\"\n      launch_stage: GA\n      metric_kind: DELTA\n      value_type: INT64\n      unit: \"1\"\n      labels:\n      - key: customer_id\n        description: \"The id of the customer.\"\n    - name: library.googleapis.com/book/num_overdue\n      display_name: \"Books Overdue\"\n      description: \"The current number of overdue books.\"\n      launch_stage: GA\n      metric_kind: GAUGE\n      value_type: INT64\n      unit: \"1\"\n      labels:\n      - key: customer_id\n        description: \"The id of the customer.\"\n    monitoring:\n      producer_destinations:\n      - monitored_resource: library.googleapis.com/Branch\n        metrics:\n        - library.googleapis.com/book/returned_count\n      consumer_destinations:\n      - monitored_resource: library.googleapis.com/Branch\n        metrics:\n        - library.googleapis.com/book/returned_count\n        - library.googleapis.com/book/num_overdue"
+    },
+    "apiOAuthRequirements": {
+      "type": "object",
+      "properties": {
+        "canonical_scopes": {
+          "type": "string",
+          "description": "The list of publicly documented OAuth scopes that are allowed access. An\nOAuth token containing any of these scopes will be accepted.\n\nExample:\n\n     canonical_scopes: https://www.googleapis.com/auth/calendar,\n                       https://www.googleapis.com/auth/calendar.read"
+        }
+      },
+      "description": "OAuth scopes are a way to define data and permissions on data. For example,\nthere are scopes defined for \"Read-only access to Google Calendar\" and\n\"Access to Cloud Platform\". Users can consent to a scope for an application,\ngiving it permission to access that data on their behalf.\n\nOAuth scope specifications should be fairly coarse grained; a user will need\nto see and understand the text description of what your scope means.\n\nIn most cases: use one or at most two OAuth scopes for an entire family of\nproducts. If your product has multiple APIs, you should probably be sharing\nthe OAuth scope across all of those APIs.\n\nWhen you need finer grained OAuth consent screens: talk with your product\nmanagement about how developers will use them in practice.\n\nPlease note that even though each of the canonical scopes is enough for a\nrequest to be accepted and passed to the backend, a request can still fail\ndue to the backend requiring additional scopes or permissions."
+    },
+    "apiPage": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the page. It will be used as an identity of the page to\ngenerate URI of the page, text of the link to this page in navigation,\netc. The full page name (start from the root page name to this page\nconcatenated with `.`) can be used as reference to the page in your\ndocumentation. For example:\n\u003cpre\u003e\u003ccode\u003epages:\n- name: Tutorial\n  content: \u0026#40;== include tutorial.md ==\u0026#41;\n  subpages:\n  - name: Java\n    content: \u0026#40;== include tutorial_java.md ==\u0026#41;\n\u003c/code\u003e\u003c/pre\u003e\nYou can reference `Java` page using Markdown reference link syntax:\n`[Java][Tutorial.Java]`."
+        },
+        "content": {
+          "type": "string",
+          "description": "The Markdown content of the page. You can use \u003ccode\u003e\u0026#40;== include {path}\n==\u0026#41;\u003c/code\u003e to include content from a Markdown file. The content can be\nused to produce the documentation page such as HTML format page."
+        },
+        "subpages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiPage"
+          },
+          "description": "Subpages of this page. The order of subpages specified here will be\nhonored in the generated docset."
+        }
+      },
+      "description": "Represents a documentation page. A page can contain subpages to represent\nnested documentation set structure."
+    },
+    "apiQuota": {
+      "type": "object",
+      "properties": {
+        "limits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiQuotaLimit"
+          },
+          "description": "List of QuotaLimit definitions for the service."
+        },
+        "metric_rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiMetricRule"
+          },
+          "description": "List of MetricRule definitions, each one mapping a selected method to one\nor more metrics."
+        }
+      },
+      "description": "Quota configuration helps to achieve fairness and budgeting in service\nusage.\n\nThe metric based quota configuration works this way:\n- The service configuration defines a set of metrics.\n- For API calls, the quota.metric_rules maps methods to metrics with\n  corresponding costs.\n- The quota.limits defines limits on the metrics, which will be used for\n  quota checks at runtime.\n\nAn example quota configuration in yaml format:\n\n   quota:\n     limits:\n\n     - name: apiWriteQpsPerProject\n       metric: library.googleapis.com/write_calls\n       unit: \"1/min/{project}\"  # rate limit for consumer projects\n       values:\n         STANDARD: 10000\n\n\n     (The metric rules bind all methods to the read_calls metric,\n      except for the UpdateBook and DeleteBook methods. These two methods\n      are mapped to the write_calls metric, with the UpdateBook method\n      consuming at twice rate as the DeleteBook method.)\n     metric_rules:\n     - selector: \"*\"\n       metric_costs:\n         library.googleapis.com/read_calls: 1\n     - selector: google.example.library.v1.LibraryService.UpdateBook\n       metric_costs:\n         library.googleapis.com/write_calls: 2\n     - selector: google.example.library.v1.LibraryService.DeleteBook\n       metric_costs:\n         library.googleapis.com/write_calls: 1\n\n Corresponding Metric definition:\n\n     metrics:\n     - name: library.googleapis.com/read_calls\n       display_name: Read requests\n       metric_kind: DELTA\n       value_type: INT64\n\n     - name: library.googleapis.com/write_calls\n       display_name: Write requests\n       metric_kind: DELTA\n       value_type: INT64"
+    },
+    "apiQuotaLimit": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the quota limit.\n\nThe name must be provided, and it must be unique within the service. The\nname can only include alphanumeric characters as well as '-'.\n\nThe maximum length of the limit name is 64 characters."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. User-visible, extended description for this quota limit.\nShould be used only when more context is needed to understand this limit\nthan provided by the limit's display name (see: `display_name`)."
+        },
+        "default_limit": {
+          "type": "string",
+          "format": "int64",
+          "description": "Default number of tokens that can be consumed during the specified\nduration. This is the number of tokens assigned when a client\napplication developer activates the service for his/her project.\n\nSpecifying a value of 0 will block all requests. This can be used if you\nare provisioning quota to selected consumers and blocking others.\nSimilarly, a value of -1 will indicate an unlimited quota. No other\nnegative values are allowed.\n\nUsed by group-based quotas only."
+        },
+        "max_limit": {
+          "type": "string",
+          "format": "int64",
+          "description": "Maximum number of tokens that can be consumed during the specified\nduration. Client application developers can override the default limit up\nto this maximum. If specified, this value cannot be set to a value less\nthan the default limit. If not specified, it is set to the default limit.\n\nTo allow clients to apply overrides with no upper bound, set this to -1,\nindicating unlimited maximum quota.\n\nUsed by group-based quotas only."
+        },
+        "free_tier": {
+          "type": "string",
+          "format": "int64",
+          "description": "Free tier value displayed in the Developers Console for this limit.\nThe free tier is the number of tokens that will be subtracted from the\nbilled amount when billing is enabled.\nThis field can only be set on a limit with duration \"1d\", in a billable\ngroup; it is invalid on any other limit. If this field is not set, it\ndefaults to 0, indicating that there is no free tier for this service.\n\nUsed by group-based quotas only."
+        },
+        "duration": {
+          "type": "string",
+          "description": "Duration of this limit in textual notation. Must be \"100s\" or \"1d\".\n\nUsed by group-based quotas only."
+        },
+        "metric": {
+          "type": "string",
+          "description": "The name of the metric this quota limit applies to. The quota limits with\nthe same metric will be checked together during runtime. The metric must be\ndefined within the service config."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Specify the unit of the quota limit. It uses the same syntax as\n[Metric.unit][]. The supported unit kinds are determined by the quota\nbackend system.\n\nHere are some examples:\n* \"1/min/{project}\" for quota per minute per project.\n\nNote: the order of unit components is insignificant.\nThe \"1\" at the beginning is required to follow the metric unit syntax."
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "format": "int64"
+          },
+          "description": "Tiered limit values. You must specify this as a key:value pair, with an\ninteger value that is the maximum number of requests allowed for the\nspecified unit. Currently only STANDARD is supported."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "User-visible display name for this limit.\nOptional. If not set, the UI will provide a default display name based on\nthe quota configuration. This field can be used to override the default\ndisplay name generated from the configuration."
+        }
+      },
+      "description": "`QuotaLimit` defines a specific limit that applies over a specified duration\nfor a limit type. There can be at most one limit for a duration and limit\ntype combination defined within a `QuotaGroup`."
+    },
+    "apiUsage": {
+      "type": "object",
+      "properties": {
+        "requirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Requirements that must be satisfied before a consumer project can use the\nservice. Each requirement is of the form \u003cservice.name\u003e/\u003crequirement-id\u003e;\nfor example 'serviceusage.googleapis.com/billing-enabled'.\n\nFor Google APIs, a Terms of Service requirement must be included here.\nGoogle Cloud APIs must include \"serviceusage.googleapis.com/tos/cloud\".\nOther Google APIs should include\n\"serviceusage.googleapis.com/tos/universal\". Additional ToS can be\nincluded based on the business needs."
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiUsageRule"
+          },
+          "description": "A list of usage rules that apply to individual API methods.\n\n**NOTE:** All service configuration rules follow \"last one wins\" order."
+        },
+        "producer_notification_channel": {
+          "type": "string",
+          "description": "The full resource name of a channel used for sending notifications to the\nservice producer.\n\nGoogle Service Management currently only supports\n[Google Cloud Pub/Sub](https://cloud.google.com/pubsub) as a notification\nchannel. To use Google Cloud Pub/Sub as the channel, this must be the name\nof a Cloud Pub/Sub topic that uses the Cloud Pub/Sub topic name format\ndocumented in https://cloud.google.com/pubsub/docs/overview."
+        }
+      },
+      "description": "Configuration controlling usage of a service."
+    },
+    "apiUsageRule": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string",
+          "description": "Selects the methods to which this rule applies. Use '*' to indicate all\nmethods in all APIs.\n\nRefer to [selector][google.api.DocumentationRule.selector] for syntax\ndetails."
+        },
+        "allow_unregistered_calls": {
+          "type": "boolean",
+          "description": "If true, the selected method allows unregistered calls, e.g. calls\nthat don't identify any user or application."
+        },
+        "skip_service_control": {
+          "type": "boolean",
+          "description": "If true, the selected method should skip service control and the control\nplane features, such as quota and billing, will not be available.\nThis flag is used by Google Cloud Endpoints to bypass checks for internal\nmethods, such as service health check methods."
+        }
+      },
+      "description": "Usage configuration rules for the service.\n\nNOTE: Under development.\n\n\nUse this rule to configure unregistered calls for the service. Unregistered\ncalls are calls that do not contain consumer project identity.\n(Example: calls that do not contain an API key).\nBy default, API methods do not allow unregistered calls, and each method call\nmust be identified by a consumer project identity. Use this rule to\nallow/disallow unregistered calls.\n\nExample of an API that wants to allow unregistered calls for entire service.\n\n    usage:\n      rules:\n      - selector: \"*\"\n        allow_unregistered_calls: true\n\nExample of a method that wants to allow unregistered calls.\n\n    usage:\n      rules:\n      - selector: \"google.example.library.v1.LibraryService.CreateBook\"\n        allow_unregistered_calls: true"
+    },
+    "longrunningOperation": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The server-assigned name, which is only unique within the same service that\noriginally returns it. If you use the default HTTP mapping, the\n`name` should be a resource name ending with `operations/{unique_id}`."
+        },
+        "metadata": {
+          "$ref": "#/definitions/protobufAny",
+          "description": "Service-specific metadata associated with the operation.  It typically\ncontains progress information and common metadata such as create time.\nSome services might not provide such metadata.  Any method that returns a\nlong-running operation should document the metadata type, if any."
+        },
+        "done": {
+          "type": "boolean",
+          "description": "If the value is `false`, it means the operation is still in progress.\nIf `true`, the operation is completed, and either `error` or `response` is\navailable."
+        },
+        "error": {
+          "$ref": "#/definitions/rpcStatus",
+          "description": "The error result of the operation in case of failure or cancellation."
+        },
+        "response": {
+          "$ref": "#/definitions/protobufAny",
+          "description": "The normal response of the operation in case of success.  If the original\nmethod returns no data on success, such as `Delete`, the response is\n`google.protobuf.Empty`.  If the original method is standard\n`Get`/`Create`/`Update`, the response should be the resource.  For other\nmethods, the response should have the type `XxxResponse`, where `Xxx`\nis the original method name.  For example, if the original method name\nis `TakeSnapshot()`, the inferred response type is\n`TakeSnapshotResponse`."
+        }
+      },
+      "description": "This resource represents a long-running operation that is the result of a\nnetwork API call."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "protobufApi": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The fully qualified name of this interface, including package name\nfollowed by the interface's simple name."
+        },
+        "methods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufMethod"
+          },
+          "description": "The methods of this interface, in unspecified order."
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufOption"
+          },
+          "description": "Any metadata attached to the interface."
+        },
+        "version": {
+          "type": "string",
+          "description": "A version string for this interface. If specified, must have the form\n`major-version.minor-version`, as in `1.10`. If the minor version is\nomitted, it defaults to zero. If the entire version field is empty, the\nmajor version is derived from the package name, as outlined below. If the\nfield is not empty, the version in the package name will be verified to be\nconsistent with what is provided here.\n\nThe versioning schema uses [semantic\nversioning](http://semver.org) where the major version number\nindicates a breaking change and the minor version an additive,\nnon-breaking change. Both version numbers are signals to users\nwhat to expect from different versions, and should be carefully\nchosen based on the product plan.\n\nThe major version is also reflected in the package name of the\ninterface, which must end in `v\u003cmajor-version\u003e`, as in\n`google.feature.v1`. For major versions 0 and 1, the suffix can\nbe omitted. Zero major versions must only be used for\nexperimental, non-GA interfaces."
+        },
+        "source_context": {
+          "$ref": "#/definitions/protobufSourceContext",
+          "description": "Source context for the protocol buffer service represented by this\nmessage."
+        },
+        "mixins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufMixin"
+          },
+          "description": "Included interfaces. See [Mixin][]."
+        },
+        "syntax": {
+          "$ref": "#/definitions/protobufSyntax",
+          "description": "The source syntax of the service."
+        }
+      },
+      "description": "Api is a light-weight descriptor for an API Interface.\n\nInterfaces are also described as \"protocol buffer services\" in some contexts,\nsuch as by the \"service\" keyword in a .proto file, but they are different\nfrom API Services, which represent a concrete implementation of an interface\nas opposed to simply a description of methods and bindings. They are also\nsometimes simply referred to as \"APIs\" in other contexts, such as the name of\nthis message itself. See https://cloud.google.com/apis/design/glossary for\ndetailed terminology."
+    },
+    "protobufMethod": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The simple name of this method."
+        },
+        "request_type_url": {
+          "type": "string",
+          "description": "A URL of the input message type."
+        },
+        "request_streaming": {
+          "type": "boolean",
+          "description": "If true, the request is streamed."
+        },
+        "response_type_url": {
+          "type": "string",
+          "description": "The URL of the output message type."
+        },
+        "response_streaming": {
+          "type": "boolean",
+          "description": "If true, the response is streamed."
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufOption"
+          },
+          "description": "Any metadata attached to the method."
+        },
+        "syntax": {
+          "$ref": "#/definitions/protobufSyntax",
+          "description": "The source syntax of this method."
+        }
+      },
+      "description": "Method represents a method of an API interface."
+    },
+    "protobufMixin": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The fully qualified name of the interface which is included."
+        },
+        "root": {
+          "type": "string",
+          "description": "If non-empty specifies a path under which inherited HTTP paths\nare rooted."
+        }
+      },
+      "description": "- If after comment and whitespace stripping, the documentation\n  string of the redeclared method is empty, it will be inherited\n  from the original method.\n\n- Each annotation belonging to the service config (http,\n  visibility) which is not set in the redeclared method will be\n  inherited.\n\n- If an http annotation is inherited, the path pattern will be\n  modified as follows. Any version prefix will be replaced by the\n  version of the including interface plus the [root][] path if\n  specified.\n\nExample of a simple mixin:\n\n    package google.acl.v1;\n    service AccessControl {\n      // Get the underlying ACL object.\n      rpc GetAcl(GetAclRequest) returns (Acl) {\n        option (google.api.http).get = \"/v1/{resource=**}:getAcl\";\n      }\n    }\n\n    package google.storage.v2;\n    service Storage {\n      rpc GetAcl(GetAclRequest) returns (Acl);\n\n      // Get a data record.\n      rpc GetData(GetDataRequest) returns (Data) {\n        option (google.api.http).get = \"/v2/{resource=**}\";\n      }\n    }\n\nExample of a mixin configuration:\n\n    apis:\n    - name: google.storage.v2.Storage\n      mixins:\n      - name: google.acl.v1.AccessControl\n\nThe mixin construct implies that all methods in `AccessControl` are\nalso declared with same name and request/response types in\n`Storage`. A documentation generator or annotation processor will\nsee the effective `Storage.GetAcl` method after inherting\ndocumentation and annotations as follows:\n\n    service Storage {\n      // Get the underlying ACL object.\n      rpc GetAcl(GetAclRequest) returns (Acl) {\n        option (google.api.http).get = \"/v2/{resource=**}:getAcl\";\n      }\n      ...\n    }\n\nNote how the version in the path pattern changed from `v1` to `v2`.\n\nIf the `root` field in the mixin is specified, it should be a\nrelative path under which inherited HTTP paths are placed. Example:\n\n    apis:\n    - name: google.storage.v2.Storage\n      mixins:\n      - name: google.acl.v1.AccessControl\n        root: acls\n\nThis implies the following inherited HTTP annotation:\n\n    service Storage {\n      // Get the underlying ACL object.\n      rpc GetAcl(GetAclRequest) returns (Acl) {\n        option (google.api.http).get = \"/v2/acls/{resource=**}:getAcl\";\n      }\n      ...\n    }",
+      "title": "Declares an API Interface to be included in this interface. The including\ninterface must redeclare all the methods from the included interface, but\ndocumentation and options are inherited as follows:"
+    },
+    "protobufOption": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The option's name. For protobuf built-in options (options defined in\ndescriptor.proto), this is the short name. For example, `\"map_entry\"`.\nFor custom options, it should be the fully-qualified name. For example,\n`\"google.api.http\"`."
+        },
+        "value": {
+          "$ref": "#/definitions/protobufAny",
+          "description": "The option's value packed in an Any message. If the value is a primitive,\nthe corresponding wrapper type defined in google/protobuf/wrappers.proto\nshould be used. If the value is an enum, it should be stored as an int32\nvalue using the google.protobuf.Int32Value type."
+        }
+      },
+      "description": "A protocol buffer option, which can be attached to a message, field,\nenumeration, etc."
+    },
+    "protobufSourceContext": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string",
+          "description": "The path-qualified name of the .proto file that contained the associated\nprotobuf element.  For example: `\"google/protobuf/source_context.proto\"`."
+        }
+      },
+      "description": "`SourceContext` represents information about the source of a\nprotobuf element, like the file in which it is defined."
+    },
+    "protobufSyntax": {
+      "type": "string",
+      "enum": [
+        "SYNTAX_PROTO3",
+        "SYNTAX_EDITIONS"
+      ],
+      "description": "The syntax in which a protocol buffer element is defined.\n\n - SYNTAX_PROTO3: Syntax `proto3`.\n - SYNTAX_EDITIONS: Syntax `editions`."
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of\n[google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\n[google.rpc.Status.details][google.rpc.Status.details] field, or localized\nby the client."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          },
+          "description": "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use."
+        }
+      },
+      "description": "The `Status` type defines a logical error model that is suitable for\ndifferent programming environments, including REST APIs and RPC APIs. It is\nused by [gRPC](https://github.com/grpc). Each `Status` message contains\nthree pieces of data: error code, error message, and error details.\n\nYou can find out more about this error model and how to work with it in the\n[API Design Guide](https://cloud.google.com/apis/design/errors)."
+    },
+    "v1BatchGetServicesResponse": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Service"
+          },
+          "description": "The requested Service states."
+        }
+      },
+      "description": "Response message for the `BatchGetServices` method."
+    },
+    "v1ListServicesResponse": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Service"
+          },
+          "description": "The available services for the requested project."
+        },
+        "next_page_token": {
+          "type": "string",
+          "description": "Token that can be passed to `ListServices` to resume a paginated\nquery."
+        }
+      },
+      "description": "Response message for the `ListServices` method."
+    },
+    "v1Service": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The resource name of the consumer and service.\n\nA valid name would be:\n- projects/123/services/serviceusage.googleapis.com"
+        },
+        "parent": {
+          "type": "string",
+          "description": "The resource name of the consumer.\n\nA valid name would be:\n- projects/123"
+        },
+        "config": {
+          "$ref": "#/definitions/v1ServiceConfig",
+          "description": "The service configuration of the available service.\nSome fields may be filtered out of the configuration in responses to\nthe `ListServices` method. These fields are present only in responses to\nthe `GetService` method."
+        },
+        "state": {
+          "$ref": "#/definitions/v1State",
+          "description": "Whether or not the service has been enabled for use by the consumer."
+        }
+      },
+      "description": "A service that is available for use by the consumer."
+    },
+    "v1ServiceConfig": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The DNS address at which this service is available.\n\nAn example DNS address would be:\n`calendar.googleapis.com`."
+        },
+        "title": {
+          "type": "string",
+          "description": "The product title for this service."
+        },
+        "apis": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufApi"
+          },
+          "description": "A list of API interfaces exported by this service. Contains only the names,\nversions, and method names of the interfaces."
+        },
+        "documentation": {
+          "$ref": "#/definitions/apiDocumentation",
+          "description": "Additional API documentation. Contains only the summary and the\ndocumentation URL."
+        },
+        "quota": {
+          "$ref": "#/definitions/apiQuota",
+          "description": "Quota configuration."
+        },
+        "authentication": {
+          "$ref": "#/definitions/apiAuthentication",
+          "description": "Auth configuration. Contains only the OAuth rules."
+        },
+        "usage": {
+          "$ref": "#/definitions/apiUsage",
+          "description": "Configuration controlling usage of this service."
+        },
+        "endpoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiEndpoint"
+          },
+          "description": "Configuration for network endpoints. Contains only the names and aliases\nof the endpoints."
+        },
+        "monitored_resources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiMonitoredResourceDescriptor"
+          },
+          "description": "Defines the monitored resources used by this service. This is required\nby the [Service.monitoring][google.api.Service.monitoring] and\n[Service.logging][google.api.Service.logging] configurations."
+        },
+        "monitoring": {
+          "$ref": "#/definitions/apiMonitoring",
+          "description": "Monitoring configuration.\nThis should not include the 'producer_destinations' field."
+        }
+      },
+      "description": "The configuration of the service."
+    },
+    "v1State": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "ENABLED"
+      ],
+      "description": "Whether or not a service has been enabled for use by a consumer.\n\n - DISABLED: The service cannot be used by this consumer. It has either been explicitly\ndisabled, or has never been enabled.\n - ENABLED: The service has been explicitly enabled for use by this consumer."
+    }
+  }
+}

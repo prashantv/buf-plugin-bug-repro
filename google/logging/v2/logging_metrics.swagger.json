@@ -1,0 +1,557 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "google/logging/v2/logging_metrics.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "MetricsServiceV2"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v2/{metric_name}": {
+      "get": {
+        "summary": "Gets a logs-based metric.",
+        "operationId": "GetLogMetric",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2LogMetric"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "metric_name",
+            "description": "Required. The resource name of the desired metric:\n\n    \"projects/[PROJECT_ID]/metrics/[METRIC_ID]\"",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/metrics/[^/]+"
+          }
+        ],
+        "tags": [
+          "MetricsServiceV2"
+        ]
+      },
+      "delete": {
+        "summary": "Deletes a logs-based metric.",
+        "operationId": "DeleteLogMetric",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "metric_name",
+            "description": "Required. The resource name of the metric to delete:\n\n    \"projects/[PROJECT_ID]/metrics/[METRIC_ID]\"",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/metrics/[^/]+"
+          }
+        ],
+        "tags": [
+          "MetricsServiceV2"
+        ]
+      },
+      "put": {
+        "summary": "Creates or updates a logs-based metric.",
+        "operationId": "UpdateLogMetric",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2LogMetric"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "metric_name",
+            "description": "Required. The resource name of the metric to update:\n\n    \"projects/[PROJECT_ID]/metrics/[METRIC_ID]\"\n\nThe updated metric must be provided in the request and it's\n`name` field must be the same as `[METRIC_ID]` If the metric\ndoes not exist in `[PROJECT_ID]`, then a new metric is created.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/metrics/[^/]+"
+          },
+          {
+            "name": "metric",
+            "description": "Required. The updated metric.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2LogMetric",
+              "required": [
+                "metric"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "MetricsServiceV2"
+        ]
+      }
+    },
+    "/v2/{parent}/metrics": {
+      "get": {
+        "summary": "Lists logs-based metrics.",
+        "operationId": "ListLogMetrics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListLogMetricsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Required. The name of the project containing the metrics:\n\n    \"projects/[PROJECT_ID]\"",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. If present, then retrieve the next batch of results from the\npreceding call to this method. `pageToken` must be the value of\n`nextPageToken` from the previous response. The values of other method\nparameters should be identical to those in the previous call.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. The maximum number of results to return from this request.\nNon-positive values are ignored. The presence of `nextPageToken` in the\nresponse indicates that more results might be available.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "MetricsServiceV2"
+        ]
+      },
+      "post": {
+        "summary": "Creates a logs-based metric.",
+        "operationId": "CreateLogMetric",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2LogMetric"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Required. The resource name of the project in which to create the metric:\n\n    \"projects/[PROJECT_ID]\"\n\nThe new metric must be provided in the request.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+"
+          },
+          {
+            "name": "metric",
+            "description": "Required. The new logs-based metric, which must not have an identifier that\nalready exists.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2LogMetric",
+              "required": [
+                "metric"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "MetricsServiceV2"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "BucketOptionsExplicit": {
+      "type": "object",
+      "properties": {
+        "bounds": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": "The values must be monotonically increasing."
+        }
+      },
+      "description": "Specifies a set of buckets with arbitrary widths.\n\nThere are `size(bounds) + 1` (= N) buckets. Bucket `i` has the following\nboundaries:\n\n   Upper bound (0 \u003c= i \u003c N-1):     bounds[i]\n   Lower bound (1 \u003c= i \u003c N);       bounds[i - 1]\n\nThe `bounds` field must contain at least one element. If `bounds` has\nonly one element, then there are no finite buckets, and that single\nelement is the common boundary of the overflow and underflow buckets."
+    },
+    "BucketOptionsExponential": {
+      "type": "object",
+      "properties": {
+        "num_finite_buckets": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Must be greater than 0."
+        },
+        "growth_factor": {
+          "type": "number",
+          "format": "double",
+          "description": "Must be greater than 1."
+        },
+        "scale": {
+          "type": "number",
+          "format": "double",
+          "description": "Must be greater than 0."
+        }
+      },
+      "description": "Specifies an exponential sequence of buckets that have a width that is\nproportional to the value of the lower bound. Each bucket represents a\nconstant relative uncertainty on a specific value in the bucket.\n\nThere are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the\nfollowing boundaries:\n\n   Upper bound (0 \u003c= i \u003c N-1):     scale * (growth_factor ^ i).\n\n   Lower bound (1 \u003c= i \u003c N):       scale * (growth_factor ^ (i - 1))."
+    },
+    "BucketOptionsLinear": {
+      "type": "object",
+      "properties": {
+        "num_finite_buckets": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Must be greater than 0."
+        },
+        "width": {
+          "type": "number",
+          "format": "double",
+          "description": "Must be greater than 0."
+        },
+        "offset": {
+          "type": "number",
+          "format": "double",
+          "description": "Lower bound of the first bucket."
+        }
+      },
+      "description": "Specifies a linear sequence of buckets that all have the same width\n(except overflow and underflow). Each bucket represents a constant\nabsolute uncertainty on the specific value in the bucket.\n\nThere are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the\nfollowing boundaries:\n\n   Upper bound (0 \u003c= i \u003c N-1):     offset + (width * i).\n\n   Lower bound (1 \u003c= i \u003c N):       offset + (width * (i - 1))."
+    },
+    "DistributionBucketOptions": {
+      "type": "object",
+      "properties": {
+        "linear_buckets": {
+          "$ref": "#/definitions/BucketOptionsLinear",
+          "description": "The linear bucket."
+        },
+        "exponential_buckets": {
+          "$ref": "#/definitions/BucketOptionsExponential",
+          "description": "The exponential buckets."
+        },
+        "explicit_buckets": {
+          "$ref": "#/definitions/BucketOptionsExplicit",
+          "description": "The explicit buckets."
+        }
+      },
+      "description": "`BucketOptions` describes the bucket boundaries used to create a histogram\nfor the distribution. The buckets can be in a linear sequence, an\nexponential sequence, or each bucket can be specified explicitly.\n`BucketOptions` does not include the number of values in each bucket.\n\nA bucket has an inclusive lower bound and exclusive upper bound for the\nvalues that are counted for that bucket. The upper bound of a bucket must\nbe strictly greater than the lower bound. The sequence of N buckets for a\ndistribution consists of an underflow bucket (number 0), zero or more\nfinite buckets (number 1 through N - 2) and an overflow bucket (number N -\n1). The buckets are contiguous: the lower bound of bucket i (i \u003e 0) is the\nsame as the upper bound of bucket i - 1. The buckets span the whole range\nof finite values: lower bound of the underflow bucket is -infinity and the\nupper bound of the overflow bucket is +infinity. The finite buckets are\nso-called because both bounds are finite."
+    },
+    "LogMetricApiVersion": {
+      "type": "string",
+      "enum": [
+        "V1"
+      ],
+      "description": "Logging API version.\n\n - V1: Logging API v1."
+    },
+    "MetricDescriptorMetricDescriptorMetadata": {
+      "type": "object",
+      "properties": {
+        "launch_stage": {
+          "$ref": "#/definitions/apiLaunchStage",
+          "description": "Deprecated. Must use the\n[MetricDescriptor.launch_stage][google.api.MetricDescriptor.launch_stage]\ninstead."
+        },
+        "sample_period": {
+          "type": "string",
+          "description": "The sampling period of metric data points. For metrics which are written\nperiodically, consecutive data points are stored at this time interval,\nexcluding data loss due to errors. Metrics with a higher granularity have\na smaller sampling period."
+        },
+        "ingest_delay": {
+          "type": "string",
+          "description": "The delay of data points caused by ingestion. Data points older than this\nage are guaranteed to be ingested and available to be read, excluding\ndata loss due to errors."
+        }
+      },
+      "description": "Additional annotations that can be used to guide the usage of a metric."
+    },
+    "MetricDescriptorMetricKind": {
+      "type": "string",
+      "enum": [
+        "GAUGE",
+        "DELTA",
+        "CUMULATIVE"
+      ],
+      "description": "The kind of measurement. It describes how the data is reported.\nFor information on setting the start time and end time based on\nthe MetricKind, see [TimeInterval][google.monitoring.v3.TimeInterval].\n\n - GAUGE: An instantaneous measurement of a value.\n - DELTA: The change in a value during a time interval.\n - CUMULATIVE: A value accumulated over a time interval.  Cumulative\nmeasurements in a time series should have the same start time\nand increasing end times, until an event resets the cumulative\nvalue to zero and sets a new start time for the following\npoints."
+    },
+    "apiLabelDescriptor": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The label key."
+        },
+        "value_type": {
+          "$ref": "#/definitions/apiLabelDescriptorValueType",
+          "description": "The type of data that can be assigned to the label."
+        },
+        "description": {
+          "type": "string",
+          "description": "A human-readable description for the label."
+        }
+      },
+      "description": "A description of a label."
+    },
+    "apiLabelDescriptorValueType": {
+      "type": "string",
+      "enum": [
+        "BOOL",
+        "INT64"
+      ],
+      "description": "Value types that can be used as label values.\n\n - BOOL: Boolean; true or false.\n - INT64: A 64-bit signed integer."
+    },
+    "apiLaunchStage": {
+      "type": "string",
+      "enum": [
+        "UNIMPLEMENTED",
+        "PRELAUNCH",
+        "EARLY_ACCESS",
+        "ALPHA",
+        "BETA",
+        "GA",
+        "DEPRECATED"
+      ],
+      "description": "The launch stage as defined by [Google Cloud Platform\nLaunch Stages](https://cloud.google.com/terms/launch-stages).\n\n - UNIMPLEMENTED: The feature is not yet implemented. Users can not use it.\n - PRELAUNCH: Prelaunch features are hidden from users and are only visible internally.\n - EARLY_ACCESS: Early Access features are limited to a closed group of testers. To use\nthese features, you must sign up in advance and sign a Trusted Tester\nagreement (which includes confidentiality provisions). These features may\nbe unstable, changed in backward-incompatible ways, and are not\nguaranteed to be released.\n - ALPHA: Alpha is a limited availability test for releases before they are cleared\nfor widespread use. By Alpha, all significant design issues are resolved\nand we are in the process of verifying functionality. Alpha customers\nneed to apply for access, agree to applicable terms, and have their\nprojects allowlisted. Alpha releases don't have to be feature complete,\nno SLAs are provided, and there are no technical support obligations, but\nthey will be far enough along that customers can actually use them in\ntest environments or for limited-use tests -- just like they would in\nnormal production cases.\n - BETA: Beta is the point at which we are ready to open a release for any\ncustomer to use. There are no SLA or technical support obligations in a\nBeta release. Products will be complete from a feature perspective, but\nmay have some open outstanding issues. Beta releases are suitable for\nlimited production use cases.\n - GA: GA features are open to all developers and are considered stable and\nfully qualified for production use.\n - DEPRECATED: Deprecated features are scheduled to be shut down and removed. For more\ninformation, see the \"Deprecation Policy\" section of our [Terms of\nService](https://cloud.google.com/terms/)\nand the [Google Cloud Platform Subject to the Deprecation\nPolicy](https://cloud.google.com/terms/deprecation) documentation."
+    },
+    "apiMetricDescriptor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The resource name of the metric descriptor."
+        },
+        "type": {
+          "type": "string",
+          "description": "\"custom.googleapis.com/invoice/paid/amount\"\n    \"external.googleapis.com/prometheus/up\"\n    \"appengine.googleapis.com/http/server/response_latencies\"",
+          "title": "The metric type, including its DNS name prefix. The type is not\nURL-encoded. All user-defined metric types have the DNS name\n`custom.googleapis.com` or `external.googleapis.com`. Metric types should\nuse a natural hierarchical grouping. For example:"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiLabelDescriptor"
+          },
+          "description": "The set of labels that can be used to describe a specific\ninstance of this metric type. For example, the\n`appengine.googleapis.com/http/server/response_latencies` metric\ntype has a label for the HTTP response code, `response_code`, so\nyou can look at latencies for successful responses or just\nfor responses that failed."
+        },
+        "metric_kind": {
+          "$ref": "#/definitions/MetricDescriptorMetricKind",
+          "description": "Whether the metric records instantaneous values, changes to a value, etc.\nSome combinations of `metric_kind` and `value_type` might not be supported."
+        },
+        "value_type": {
+          "$ref": "#/definitions/apiMetricDescriptorValueType",
+          "description": "Whether the measurement is an integer, a floating-point number, etc.\nSome combinations of `metric_kind` and `value_type` might not be supported."
+        },
+        "unit": {
+          "type": "string",
+          "description": "The units in which the metric value is reported. It is only applicable\nif the `value_type` is `INT64`, `DOUBLE`, or `DISTRIBUTION`. The `unit`\ndefines the representation of the stored metric values.\n\nDifferent systems might scale the values to be more easily displayed (so a\nvalue of `0.02kBy` _might_ be displayed as `20By`, and a value of\n`3523kBy` _might_ be displayed as `3.5MBy`). However, if the `unit` is\n`kBy`, then the value of the metric is always in thousands of bytes, no\nmatter how it might be displayed.\n\nIf you want a custom metric to record the exact number of CPU-seconds used\nby a job, you can create an `INT64 CUMULATIVE` metric whose `unit` is\n`s{CPU}` (or equivalently `1s{CPU}` or just `s`). If the job uses 12,005\nCPU-seconds, then the value is written as `12005`.\n\nAlternatively, if you want a custom metric to record data in a more\ngranular way, you can create a `DOUBLE CUMULATIVE` metric whose `unit` is\n`ks{CPU}`, and then write the value `12.005` (which is `12005/1000`),\nor use `Kis{CPU}` and write `11.723` (which is `12005/1024`).\n\nThe supported units are a subset of [The Unified Code for Units of\nMeasure](https://unitsofmeasure.org/ucum.html) standard:\n\n**Basic units (UNIT)**\n\n* `bit`   bit\n* `By`    byte\n* `s`     second\n* `min`   minute\n* `h`     hour\n* `d`     day\n* `1`     dimensionless\n\n**Prefixes (PREFIX)**\n\n* `k`     kilo    (10^3)\n* `M`     mega    (10^6)\n* `G`     giga    (10^9)\n* `T`     tera    (10^12)\n* `P`     peta    (10^15)\n* `E`     exa     (10^18)\n* `Z`     zetta   (10^21)\n* `Y`     yotta   (10^24)\n\n* `m`     milli   (10^-3)\n* `u`     micro   (10^-6)\n* `n`     nano    (10^-9)\n* `p`     pico    (10^-12)\n* `f`     femto   (10^-15)\n* `a`     atto    (10^-18)\n* `z`     zepto   (10^-21)\n* `y`     yocto   (10^-24)\n\n* `Ki`    kibi    (2^10)\n* `Mi`    mebi    (2^20)\n* `Gi`    gibi    (2^30)\n* `Ti`    tebi    (2^40)\n* `Pi`    pebi    (2^50)\n\n**Grammar**\n\nThe grammar also includes these connectors:\n\n* `/`    division or ratio (as an infix operator). For examples,\n         `kBy/{email}` or `MiBy/10ms` (although you should almost never\n         have `/s` in a metric `unit`; rates should always be computed at\n         query time from the underlying cumulative or delta value).\n* `.`    multiplication or composition (as an infix operator). For\n         examples, `GBy.d` or `k{watt}.h`.\n\nThe grammar for a unit is as follows:\n\n    Expression = Component { \".\" Component } { \"/\" Component } ;\n\n    Component = ( [ PREFIX ] UNIT | \"%\" ) [ Annotation ]\n              | Annotation\n              | \"1\"\n              ;\n\n    Annotation = \"{\" NAME \"}\" ;\n\nNotes:\n\n* `Annotation` is just a comment if it follows a `UNIT`. If the annotation\n   is used alone, then the unit is equivalent to `1`. For examples,\n   `{request}/s == 1/s`, `By{transmitted}/s == By/s`.\n* `NAME` is a sequence of non-blank printable ASCII characters not\n   containing `{` or `}`.\n* `1` represents a unitary [dimensionless\n   unit](https://en.wikipedia.org/wiki/Dimensionless_quantity) of 1, such\n   as in `1/s`. It is typically used when none of the basic units are\n   appropriate. For example, \"new users per day\" can be represented as\n   `1/d` or `{new-users}/d` (and a metric value `5` would mean \"5 new\n   users). Alternatively, \"thousands of page views per day\" would be\n   represented as `1000/d` or `k1/d` or `k{page_views}/d` (and a metric\n   value of `5.3` would mean \"5300 page views per day\").\n* `%` represents dimensionless value of 1/100, and annotates values giving\n   a percentage (so the metric values are typically in the range of 0..100,\n   and a metric value `3` means \"3 percent\").\n* `10^2.%` indicates a metric contains a ratio, typically in the range\n   0..1, that will be multiplied by 100 and displayed as a percentage\n   (so a metric value `0.03` means \"3 percent\")."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the metric, which can be used in documentation."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "A concise name for the metric, which can be displayed in user interfaces.\nUse sentence case without an ending period, for example \"Request count\".\nThis field is optional but it is recommended to be set for any metrics\nassociated with user-visible concepts, such as Quota."
+        },
+        "metadata": {
+          "$ref": "#/definitions/MetricDescriptorMetricDescriptorMetadata",
+          "description": "Optional. Metadata which can be used to guide usage of the metric."
+        },
+        "launch_stage": {
+          "$ref": "#/definitions/apiLaunchStage",
+          "description": "Optional. The launch stage of the metric definition."
+        },
+        "monitored_resource_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Read-only. If present, then a [time\nseries][google.monitoring.v3.TimeSeries], which is identified partially by\na metric type and a\n[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor], that\nis associated with this metric type can only be associated with one of the\nmonitored resource types listed here."
+        }
+      },
+      "description": "Defines a metric type and its schema. Once a metric descriptor is created,\ndeleting or altering it stops data collection and makes the metric type's\nexisting data unusable."
+    },
+    "apiMetricDescriptorValueType": {
+      "type": "string",
+      "enum": [
+        "BOOL",
+        "INT64",
+        "DOUBLE",
+        "STRING",
+        "DISTRIBUTION",
+        "MONEY"
+      ],
+      "description": "The value type of a metric.\n\n - BOOL: The value is a boolean.\nThis value type can be used only if the metric kind is `GAUGE`.\n - INT64: The value is a signed 64-bit integer.\n - DOUBLE: The value is a double precision floating point number.\n - STRING: The value is a text string.\nThis value type can be used only if the metric kind is `GAUGE`.\n - DISTRIBUTION: The value is a [`Distribution`][google.api.Distribution].\n - MONEY: The value is money."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of\n[google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\n[google.rpc.Status.details][google.rpc.Status.details] field, or localized\nby the client."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          },
+          "description": "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use."
+        }
+      },
+      "description": "The `Status` type defines a logical error model that is suitable for\ndifferent programming environments, including REST APIs and RPC APIs. It is\nused by [gRPC](https://github.com/grpc). Each `Status` message contains\nthree pieces of data: error code, error message, and error details.\n\nYou can find out more about this error model and how to work with it in the\n[API Design Guide](https://cloud.google.com/apis/design/errors)."
+    },
+    "v2ListLogMetricsResponse": {
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2LogMetric"
+          },
+          "description": "A list of logs-based metrics."
+        },
+        "next_page_token": {
+          "type": "string",
+          "description": "If there might be more results than appear in this response, then\n`nextPageToken` is included. To get the next set of results, call this\nmethod again using the value of `nextPageToken` as `pageToken`."
+        }
+      },
+      "description": "Result returned from ListLogMetrics."
+    },
+    "v2LogMetric": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Required. The client-assigned metric identifier.\nExamples: `\"error_count\"`, `\"nginx/requests\"`.\n\nMetric identifiers are limited to 100 characters and can include only the\nfollowing characters: `A-Z`, `a-z`, `0-9`, and the special characters\n`_-.,+!*',()%/`. The forward-slash character (`/`) denotes a hierarchy of\nname pieces, and it cannot be the first character of the name.\n\nThis field is the `[METRIC_ID]` part of a metric resource name in the\nformat \"projects/[PROJECT_ID]/metrics/[METRIC_ID]\". Example: If the\nresource name of a metric is\n`\"projects/my-project/metrics/nginx%2Frequests\"`, this field's value is\n`\"nginx/requests\"`."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional. A description of this metric, which is used in documentation.\nThe maximum length of the description is 8000 characters."
+        },
+        "filter": {
+          "type": "string",
+          "description": "\"resource.type=gae_app AND severity\u003e=ERROR\"\n\nThe maximum length of the filter is 20000 characters.",
+          "title": "Required. An [advanced logs\nfilter](https://cloud.google.com/logging/docs/view/advanced_filters) which\nis used to match log entries. Example:"
+        },
+        "bucket_name": {
+          "type": "string",
+          "description": "Optional. The resource name of the Log Bucket that owns the Log Metric.\nOnly Log Buckets in projects are supported. The bucket has to be in the\nsame project as the metric.\n\nFor example:\n\n  `projects/my-project/locations/global/buckets/my-bucket`\n\nIf empty, then the Log Metric is considered a non-Bucket Log Metric."
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "Optional. If set to True, then this metric is disabled and it does not\ngenerate any points."
+        },
+        "metric_descriptor": {
+          "$ref": "#/definitions/apiMetricDescriptor",
+          "description": "Optional. The metric descriptor associated with the logs-based metric.\nIf unspecified, it uses a default metric descriptor with a DELTA metric\nkind, INT64 value type, with no labels and a unit of \"1\". Such a metric\ncounts the number of log entries matching the `filter` expression.\n\nThe `name`, `type`, and `description` fields in the `metric_descriptor`\nare output only, and is constructed using the `name` and `description`\nfield in the LogMetric.\n\nTo create a logs-based metric that records a distribution of log values, a\nDELTA metric kind with a DISTRIBUTION value type must be used along with\na `value_extractor` expression in the LogMetric.\n\nEach label in the metric descriptor must have a matching label\nname as the key and an extractor expression as the value in the\n`label_extractors` map.\n\nThe `metric_kind` and `value_type` fields in the `metric_descriptor` cannot\nbe updated once initially configured. New labels can be added in the\n`metric_descriptor`, but existing labels cannot be modified except for\ntheir description."
+        },
+        "value_extractor": {
+          "type": "string",
+          "description": "1. field: The name of the log entry field from which the value is to be\n     extracted.\n  2. regex: A regular expression using the Google RE2 syntax\n     (https://github.com/google/re2/wiki/Syntax) with a single capture\n     group to extract data from the specified log entry field. The value\n     of the field is converted to a string before applying the regex.\n     It is an error to specify a regex that does not include exactly one\n     capture group.\n\nThe result of the extraction must be convertible to a double type, as the\ndistribution always records double values. If either the extraction or\nthe conversion to double fails, then those values are not recorded in the\ndistribution.\n\nExample: `REGEXP_EXTRACT(jsonPayload.request, \".*quantity=(\\d+).*\")`",
+          "title": "Optional. A `value_extractor` is required when using a distribution\nlogs-based metric to extract the values to record from a log entry.\nTwo functions are supported for value extraction: `EXTRACT(field)` or\n`REGEXP_EXTRACT(field, regex)`. The arguments are:"
+        },
+        "label_extractors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Optional. A map from a label key string to an extractor expression which is\nused to extract data from a log entry field and assign as the label value.\nEach label key specified in the LabelDescriptor must have an associated\nextractor expression in this map. The syntax of the extractor expression\nis the same as for the `value_extractor` field.\n\nThe extracted value is converted to the type defined in the label\ndescriptor. If either the extraction or the type conversion fails,\nthe label will have a default value. The default value for a string\nlabel is an empty string, for an integer label its 0, and for a boolean\nlabel its `false`.\n\nNote that there are upper bounds on the maximum number of labels and the\nnumber of active time series that are allowed in a project."
+        },
+        "bucket_options": {
+          "$ref": "#/definitions/DistributionBucketOptions",
+          "description": "Optional. The `bucket_options` are required when the logs-based metric is\nusing a DISTRIBUTION value type and it describes the bucket boundaries\nused to create a histogram of the extracted values."
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Output only. The creation timestamp of the metric.\n\nThis field may not be present for older metrics.",
+          "readOnly": true
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Output only. The last update timestamp of the metric.\n\nThis field may not be present for older metrics.",
+          "readOnly": true
+        },
+        "version": {
+          "$ref": "#/definitions/LogMetricApiVersion",
+          "description": "Deprecated. The API version that created or updated this metric.\nThe v2 format is used by default and cannot be changed."
+        }
+      },
+      "description": "Describes a logs-based metric. The value of the metric is the number of log\nentries that match a logs filter in a given time interval.\n\nLogs-based metrics can also be used to extract values from logs and create a\ndistribution of the values. The distribution records the statistics of the\nextracted values along with an optional histogram of the values as specified\nby the bucket options.",
+      "required": [
+        "name",
+        "filter"
+      ]
+    }
+  }
+}

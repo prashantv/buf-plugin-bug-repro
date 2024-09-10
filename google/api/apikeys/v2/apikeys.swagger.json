@@ -1,0 +1,684 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "google/api/apikeys/v2/apikeys.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ApiKeys"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v2/keys:lookupKey": {
+      "get": {
+        "summary": "Find the parent project and resource name of the API\nkey that matches the key string in the request. If the API key has been\npurged, resource name will not be set.\nThe service account must have the `apikeys.keys.lookup` permission\non the parent project.",
+        "operationId": "LookupKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2LookupKeyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "key_string",
+            "description": "Required. Finds the project that owns the key string value.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ApiKeys"
+        ]
+      }
+    },
+    "/v2/{key.name}": {
+      "patch": {
+        "summary": "Patches the modifiable fields of an API key.\nThe key string of the API key isn't included in the response.",
+        "description": "NOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+        "operationId": "UpdateKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/longrunningOperation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "key.name",
+            "description": "Output only. The resource name of the key.\nThe `name` has the form:\n`projects/\u003cPROJECT_NUMBER\u003e/locations/global/keys/\u003cKEY_ID\u003e`.\nFor example:\n`projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2`\n\nNOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/keys/[^/]+"
+          },
+          {
+            "name": "key",
+            "description": "Required. Set the `name` field to the resource name of the API key to be\nupdated. You can update only the `display_name`, `restrictions`, and\n`annotations` fields.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "uid": {
+                  "type": "string",
+                  "description": "Output only. Unique id in UUID4 format.",
+                  "readOnly": true
+                },
+                "display_name": {
+                  "type": "string",
+                  "description": "Human-readable display name of this key that you can modify.\nThe maximum length is 63 characters."
+                },
+                "key_string": {
+                  "type": "string",
+                  "description": "Output only. An encrypted and signed value held by this key.\nThis field can be accessed only through the `GetKeyString` method.",
+                  "readOnly": true
+                },
+                "create_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Output only. A timestamp identifying the time this key was originally\ncreated.",
+                  "readOnly": true
+                },
+                "update_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Output only. A timestamp identifying the time this key was last\nupdated.",
+                  "readOnly": true
+                },
+                "delete_time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Output only. A timestamp when this key was deleted. If the resource is not\ndeleted, this must be empty.",
+                  "readOnly": true
+                },
+                "annotations": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Annotations is an unstructured key-value map stored with a policy that\nmay be set by external tools to store and retrieve arbitrary metadata.\nThey are not queryable and should be preserved when modifying objects."
+                },
+                "restrictions": {
+                  "$ref": "#/definitions/v2Restrictions",
+                  "description": "Key restrictions."
+                },
+                "etag": {
+                  "type": "string",
+                  "description": "Output only. A checksum computed by the server based on the current value\nof the Key resource. This may be sent on update and delete requests to\nensure the client has an up-to-date value before proceeding. See\nhttps://google.aip.dev/154.",
+                  "readOnly": true
+                }
+              },
+              "title": "Required. Set the `name` field to the resource name of the API key to be\nupdated. You can update only the `display_name`, `restrictions`, and\n`annotations` fields."
+            }
+          }
+        ],
+        "tags": [
+          "ApiKeys"
+        ]
+      }
+    },
+    "/v2/{name}": {
+      "get": {
+        "summary": "Gets the metadata for an API key. The key string of the API key\nisn't included in the response.",
+        "description": "NOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+        "operationId": "GetKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2Key"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Required. The resource name of the API key to get.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/keys/[^/]+"
+          }
+        ],
+        "tags": [
+          "ApiKeys"
+        ]
+      },
+      "delete": {
+        "summary": "Deletes an API key. Deleted key can be retrieved within 30 days of\ndeletion. Afterward, key will be purged from the project.",
+        "description": "NOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+        "operationId": "DeleteKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/longrunningOperation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Required. The resource name of the API key to be deleted.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/keys/[^/]+"
+          },
+          {
+            "name": "etag",
+            "description": "Optional. The etag known to the client for the expected state of the key.\nThis is to be used for optimistic concurrency.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ApiKeys"
+        ]
+      }
+    },
+    "/v2/{name}/keyString": {
+      "get": {
+        "summary": "Get the key string for an API key.",
+        "description": "NOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+        "operationId": "GetKeyString",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2GetKeyStringResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Required. The resource name of the API key to be retrieved.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/keys/[^/]+"
+          }
+        ],
+        "tags": [
+          "ApiKeys"
+        ]
+      }
+    },
+    "/v2/{name}:undelete": {
+      "post": {
+        "summary": "Undeletes an API key which was deleted within 30 days.",
+        "description": "NOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+        "operationId": "UndeleteKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/longrunningOperation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "Required. The resource name of the API key to be undeleted.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+/keys/[^/]+"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiKeysUndeleteKeyBody"
+            }
+          }
+        ],
+        "tags": [
+          "ApiKeys"
+        ]
+      }
+    },
+    "/v2/{parent}/keys": {
+      "get": {
+        "summary": "Lists the API keys owned by a project. The key string of the API key\nisn't included in the response.",
+        "description": "NOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+        "operationId": "ListKeys",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v2ListKeysResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Required. Lists all API keys associated with this project.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+"
+          },
+          {
+            "name": "page_size",
+            "description": "Optional. Specifies the maximum number of results to be returned at a time.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_token",
+            "description": "Optional. Requests a specific page of results.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "show_deleted",
+            "description": "Optional. Indicate that keys deleted in the past 30 days should also be\nreturned.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "ApiKeys"
+        ]
+      },
+      "post": {
+        "summary": "Creates a new API key.",
+        "description": "NOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+        "operationId": "CreateKey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/longrunningOperation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "Required. The project in which the API key is created.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "pattern": "projects/[^/]+/locations/[^/]+"
+          },
+          {
+            "name": "key",
+            "description": "Required. The API key fields to set at creation time.\nYou can configure only the `display_name`, `restrictions`, and\n`annotations` fields.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v2Key",
+              "required": [
+                "key"
+              ]
+            }
+          },
+          {
+            "name": "key_id",
+            "description": "User specified key id (optional). If specified, it will become the final\ncomponent of the key resource name.\n\nThe id must be unique within the project, must conform with RFC-1034,\nis restricted to lower-cased letters, and has a maximum length of 63\ncharacters. In another word, the id must match the regular\nexpression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`.\n\nThe id must NOT be a UUID-like string.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ApiKeys"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ApiKeysUndeleteKeyBody": {
+      "type": "object",
+      "description": "Request message for `UndeleteKey` method."
+    },
+    "longrunningOperation": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The server-assigned name, which is only unique within the same service that\noriginally returns it. If you use the default HTTP mapping, the\n`name` should be a resource name ending with `operations/{unique_id}`."
+        },
+        "metadata": {
+          "$ref": "#/definitions/protobufAny",
+          "description": "Service-specific metadata associated with the operation.  It typically\ncontains progress information and common metadata such as create time.\nSome services might not provide such metadata.  Any method that returns a\nlong-running operation should document the metadata type, if any."
+        },
+        "done": {
+          "type": "boolean",
+          "description": "If the value is `false`, it means the operation is still in progress.\nIf `true`, the operation is completed, and either `error` or `response` is\navailable."
+        },
+        "error": {
+          "$ref": "#/definitions/rpcStatus",
+          "description": "The error result of the operation in case of failure or cancellation."
+        },
+        "response": {
+          "$ref": "#/definitions/protobufAny",
+          "description": "The normal response of the operation in case of success.  If the original\nmethod returns no data on success, such as `Delete`, the response is\n`google.protobuf.Empty`.  If the original method is standard\n`Get`/`Create`/`Update`, the response should be the resource.  For other\nmethods, the response should have the type `XxxResponse`, where `Xxx`\nis the original method name.  For example, if the original method name\nis `TakeSnapshot()`, the inferred response type is\n`TakeSnapshotResponse`."
+        }
+      },
+      "description": "This resource represents a long-running operation that is the result of a\nnetwork API call."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com. As of May 2023, there are no widely used type server\nimplementations and no plans to implement one.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of\n[google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\n[google.rpc.Status.details][google.rpc.Status.details] field, or localized\nby the client."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          },
+          "description": "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use."
+        }
+      },
+      "description": "The `Status` type defines a logical error model that is suitable for\ndifferent programming environments, including REST APIs and RPC APIs. It is\nused by [gRPC](https://github.com/grpc). Each `Status` message contains\nthree pieces of data: error code, error message, and error details.\n\nYou can find out more about this error model and how to work with it in the\n[API Design Guide](https://cloud.google.com/apis/design/errors)."
+    },
+    "v2AndroidApplication": {
+      "type": "object",
+      "properties": {
+        "sha1_fingerprint": {
+          "type": "string",
+          "description": "The SHA1 fingerprint of the application. For example, both sha1 formats are\nacceptable : DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09 or\nDA39A3EE5E6B4B0D3255BFEF95601890AFD80709.\nOutput format is the latter."
+        },
+        "package_name": {
+          "type": "string",
+          "description": "The package name of the application."
+        }
+      },
+      "description": "Identifier of an Android application for key use."
+    },
+    "v2AndroidKeyRestrictions": {
+      "type": "object",
+      "properties": {
+        "allowed_applications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2AndroidApplication"
+          },
+          "description": "A list of Android applications that are allowed to make API calls with\nthis key."
+        }
+      },
+      "description": "The Android apps that are allowed to use the key."
+    },
+    "v2ApiTarget": {
+      "type": "object",
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "The service for this restriction. It should be the canonical\nservice name, for example: `translate.googleapis.com`.\nYou can use [`gcloud services list`](/sdk/gcloud/reference/services/list)\nto get a list of services that are enabled in the project."
+        },
+        "methods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Optional. List of one or more methods that can be called.\nIf empty, all methods for the service are allowed. A wildcard\n(*) can be used as the last symbol.\nValid examples:\n  `google.cloud.translate.v2.TranslateService.GetSupportedLanguage`\n  `TranslateText`\n  `Get*`\n  `translate.googleapis.com.Get*`"
+        }
+      },
+      "description": "A restriction for a specific service and optionally one or multiple\nspecific methods. Both fields are case insensitive."
+    },
+    "v2BrowserKeyRestrictions": {
+      "type": "object",
+      "properties": {
+        "allowed_referrers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of regular expressions for the referrer URLs that are allowed\nto make API calls with this key."
+        }
+      },
+      "description": "The HTTP referrers (websites) that are allowed to use the key."
+    },
+    "v2GetKeyStringResponse": {
+      "type": "object",
+      "properties": {
+        "key_string": {
+          "type": "string",
+          "description": "An encrypted and signed value of the key."
+        }
+      },
+      "description": "Response message for `GetKeyString` method."
+    },
+    "v2IosKeyRestrictions": {
+      "type": "object",
+      "properties": {
+        "allowed_bundle_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of bundle IDs that are allowed when making API calls with this key."
+        }
+      },
+      "description": "The iOS apps that are allowed to use the key."
+    },
+    "v2Key": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "NOTE: Key is a global resource; hence the only supported value for\nlocation is `global`.",
+          "title": "Output only. The resource name of the key.\nThe `name` has the form:\n`projects/\u003cPROJECT_NUMBER\u003e/locations/global/keys/\u003cKEY_ID\u003e`.\nFor example:\n`projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2`",
+          "readOnly": true
+        },
+        "uid": {
+          "type": "string",
+          "description": "Output only. Unique id in UUID4 format.",
+          "readOnly": true
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Human-readable display name of this key that you can modify.\nThe maximum length is 63 characters."
+        },
+        "key_string": {
+          "type": "string",
+          "description": "Output only. An encrypted and signed value held by this key.\nThis field can be accessed only through the `GetKeyString` method.",
+          "readOnly": true
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Output only. A timestamp identifying the time this key was originally\ncreated.",
+          "readOnly": true
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Output only. A timestamp identifying the time this key was last\nupdated.",
+          "readOnly": true
+        },
+        "delete_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Output only. A timestamp when this key was deleted. If the resource is not\ndeleted, this must be empty.",
+          "readOnly": true
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Annotations is an unstructured key-value map stored with a policy that\nmay be set by external tools to store and retrieve arbitrary metadata.\nThey are not queryable and should be preserved when modifying objects."
+        },
+        "restrictions": {
+          "$ref": "#/definitions/v2Restrictions",
+          "description": "Key restrictions."
+        },
+        "etag": {
+          "type": "string",
+          "description": "Output only. A checksum computed by the server based on the current value\nof the Key resource. This may be sent on update and delete requests to\nensure the client has an up-to-date value before proceeding. See\nhttps://google.aip.dev/154.",
+          "readOnly": true
+        }
+      },
+      "description": "The representation of a key managed by the API Keys API."
+    },
+    "v2ListKeysResponse": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2Key"
+          },
+          "description": "A list of API keys."
+        },
+        "next_page_token": {
+          "type": "string",
+          "description": "The pagination token for the next page of results."
+        }
+      },
+      "description": "Response message for `ListKeys` method."
+    },
+    "v2LookupKeyResponse": {
+      "type": "object",
+      "properties": {
+        "parent": {
+          "type": "string",
+          "description": "The project that owns the key with the value specified in the request."
+        },
+        "name": {
+          "type": "string",
+          "description": "The resource name of the API key. If the API key has been purged,\nresource name is empty."
+        }
+      },
+      "description": "Response message for `LookupKey` method."
+    },
+    "v2Restrictions": {
+      "type": "object",
+      "properties": {
+        "browser_key_restrictions": {
+          "$ref": "#/definitions/v2BrowserKeyRestrictions",
+          "description": "The HTTP referrers (websites) that are allowed to use the key."
+        },
+        "server_key_restrictions": {
+          "$ref": "#/definitions/v2ServerKeyRestrictions",
+          "description": "The IP addresses of callers that are allowed to use the key."
+        },
+        "android_key_restrictions": {
+          "$ref": "#/definitions/v2AndroidKeyRestrictions",
+          "description": "The Android apps that are allowed to use the key."
+        },
+        "ios_key_restrictions": {
+          "$ref": "#/definitions/v2IosKeyRestrictions",
+          "description": "The iOS apps that are allowed to use the key."
+        },
+        "api_targets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v2ApiTarget"
+          },
+          "description": "A restriction for a specific service and optionally one or\nmore specific methods. Requests are allowed if they\nmatch any of these restrictions. If no restrictions are\nspecified, all targets are allowed."
+        }
+      },
+      "description": "Describes the restrictions on the key."
+    },
+    "v2ServerKeyRestrictions": {
+      "type": "object",
+      "properties": {
+        "allowed_ips": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of the caller IP addresses that are allowed to make API calls\nwith this key."
+        }
+      },
+      "description": "The IP addresses of callers that are allowed to use the key."
+    }
+  }
+}
